@@ -10,6 +10,7 @@ class KonsultasiController extends GetxController {
   var selectedMood = 2.obs; // 0: Buruk, 1: Sedih, 2: Oke, 3: Senang
   var bebanKerja = "Sedang".obs;
   
+  
   final jenisAktivitas = TextEditingController();
   final durasiAktivitas = TextEditingController();
   final refleksi1 = TextEditingController();
