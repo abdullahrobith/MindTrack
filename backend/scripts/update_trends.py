@@ -1,5 +1,3 @@
-"""Refresh weekly_trend collection from Google Trends."""
-
 from datetime import datetime
 
 import pandas as pd
