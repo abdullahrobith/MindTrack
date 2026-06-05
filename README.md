@@ -74,6 +74,6 @@ flutter pub get
 
 3. Jalankan aplikasi di browser:
 ```bash
-flutter run -d chrome --web-port=8080
+flutter run
 
 ```
