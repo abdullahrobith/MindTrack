@@ -11,7 +11,7 @@ class ProfilView extends GetView<ProfilController> {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF2E66E7)),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Get.back(),
         ),
         title: const Text(
@@ -172,11 +172,11 @@ class ProfilView extends GetView<ProfilController> {
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: Colors.grey.shade200),
+                borderSide: const BorderSide(color: Colors.grey),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: Colors.grey.shade200),
+                borderSide: const BorderSide(color: Colors.grey),
               ),
             ),
           ),
@@ -210,11 +210,11 @@ class ProfilView extends GetView<ProfilController> {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(color: Colors.grey.shade200),
+                  borderSide: const BorderSide(color: Colors.grey),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(color: Colors.grey.shade200),
+                  borderSide: const BorderSide(color: Colors.grey),
                 ),
               ),
               items: items

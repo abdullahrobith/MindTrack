@@ -1,8 +1,8 @@
 class ApiConstants {
   static const String baseUrl =
-      'http://127.0.0.1:5000';
+      'http://192.168.1.7:5000';
 
   // Web Client ID dari Google Cloud Console (OAuth 2.0)
   static const String googleWebClientId =
-      '585593837076-usuo463ji4d1sec4s4g1lvdusqr3b7hm.apps.googleusercontent.com';
+      '576424233833-hfees4mrkc84euvhqpp977dh89bvf1f0.apps.googleusercontent.com';
 }

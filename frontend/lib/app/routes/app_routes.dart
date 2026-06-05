@@ -13,6 +13,7 @@ abstract class Routes {
   static const SELESAI = _Paths.SELESAI;
   static const HASIL = _Paths.HASIL;
   static const REGISTER = _Paths.REGISTER;
+  static const VERIFICATION = _Paths.VERIFICATION;
 }
 
 abstract class _Paths {
@@ -28,4 +29,5 @@ abstract class _Paths {
   static const SELESAI = '/selesai';
   static const HASIL = '/hasil';
   static const REGISTER = '/register';
+  static const VERIFICATION = '/verification';
 }

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:capstone/app/data/models/article_model.dart';
 import '../../../core/controllers/global_auth_controller.dart';
+import '../../../core/config/network_config.dart';
 
 class BerandaController extends GetxController {
 
@@ -65,7 +66,7 @@ class BerandaController extends GetxController {
     final response = await http.get(
 
       Uri.parse(
-        'http://127.0.0.1:5000/articles',
+        '${NetworkConfig.baseUrl}/articles',
       ),
     );
 
@@ -114,7 +115,7 @@ class BerandaController extends GetxController {
     final response = await http.get(
 
       Uri.parse(
-        'http://127.0.0.1:5000/search-realtime/$keyword',
+        '${NetworkConfig.baseUrl}/search-realtime/$keyword',
       ),
     );
 
@@ -156,7 +157,7 @@ class BerandaController extends GetxController {
     final response = await http.get(
 
       Uri.parse(
-        'http://127.0.0.1:5000/weekly-trend',
+        '${NetworkConfig.baseUrl}/weekly-trend',
       ),
     );
 

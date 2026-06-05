@@ -81,7 +81,7 @@ class RegisterController
       );
 
       Get.offAllNamed(
-        Routes.AUTH,
+        Routes.VERIFICATION,
       );
 
     } catch (e) {

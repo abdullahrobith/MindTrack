@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/beranda_controller.dart';
 import '../../../data/models/article_model.dart';
+import '../../../core/controllers/global_auth_controller.dart';
 
 import '../../../widgets/main_bottom_nav.dart';
 
@@ -45,7 +46,7 @@ class BerandaView extends GetView<BerandaController> {
 
               const SizedBox(height: 25),
 
-              _buildWeeklyTrend(),
+              _buildWeeklyTrend(context),
 
               const SizedBox(height: 30),
 
@@ -53,11 +54,11 @@ class BerandaView extends GetView<BerandaController> {
 
               const SizedBox(height: 12),
 
-              _buildSearchBar(),
+              _buildSearchBar(context),
 
               const SizedBox(height: 20),
 
-              _buildArticleSection(),
+              _buildArticleSection(context),
 
               const SizedBox(height: 30),
 
@@ -462,7 +463,7 @@ Widget _trendTile(
   // WEEKLY TREND
   // =====================================================
 
-  Widget _buildWeeklyTrend() {
+  Widget _buildWeeklyTrend(BuildContext context) {
 
   return Obx(() {
 
@@ -500,7 +501,7 @@ Widget _trendTile(
 
           decoration: BoxDecoration(
 
-            color: Get.theme.cardColor,
+            color: Get.find<GlobalAuthController>().isDarkMode.value ? const Color(0xFF1E1E1E) : Colors.white,
 
             borderRadius:
                 BorderRadius.circular(20),
@@ -596,13 +597,17 @@ Widget _trendTile(
   // SEARCH
   // =====================================================
 
-  Widget _buildSearchBar() {
-
+  Widget _buildSearchBar(BuildContext context) {
   final TextEditingController
       searchController =
       TextEditingController();
 
-  return Row(
+  return Obx(() {
+    final isDark = Get.find<GlobalAuthController>().isDarkMode.value;
+    final cardColor = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+    final textColor = isDark ? Colors.white : Colors.black;
+
+    return Row(
 
     children: [
 
@@ -617,6 +622,7 @@ Widget _trendTile(
             controller.searchArticle(value);
           },
 
+          style: TextStyle(color: textColor),
           decoration: InputDecoration(
 
             hintText: "Cari artikel...",
@@ -626,7 +632,7 @@ Widget _trendTile(
 
             filled: true,
 
-            fillColor: Get.theme.cardColor,
+            fillColor: cardColor,
 
             contentPadding:
                 const EdgeInsets.symmetric(
@@ -681,13 +687,14 @@ Widget _trendTile(
       )
     ],
   );
+  });
 }
 
   // =====================================================
   // ARTICLE SECTION
   // =====================================================
 
-  Widget _buildArticleSection() {
+  Widget _buildArticleSection(BuildContext context) {
     return Obx(() {
 
       final data = controller.searchResult.isNotEmpty
@@ -720,7 +727,7 @@ Widget _trendTile(
 
             final article = data[index];
 
-            return _articleCard(article);
+            return _articleCard(context, article);
           },
         ),
       );
@@ -732,12 +739,17 @@ Widget _trendTile(
   // =====================================================
 
   Widget _articleCard(
+  BuildContext context,
   ArticleModel article,
 ) {
+  final isDark = Get.find<GlobalAuthController>().isDarkMode.value;
+  final cardColor = isDark ? const Color(0xFF1E1E1E) : Colors.white;
+  final descColor = isDark ? Colors.grey.shade400 : Colors.grey.shade700;
+
   return Container(
     margin: const EdgeInsets.only(bottom: 18),
     decoration: BoxDecoration(
-      color: Get.theme.cardColor,
+      color: cardColor,
       borderRadius: BorderRadius.circular(24),
       boxShadow: [
         BoxShadow(
@@ -844,8 +856,7 @@ Widget _trendTile(
                     TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 13,
-                  color:
-                      Colors.grey.shade700,
+                  color: descColor,
                   height: 1.6,
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../core/controllers/global_auth_controller.dart';
 import '../../../routes/app_pages.dart';
@@ -24,9 +25,11 @@ class AuthController extends GetxController {
         password: password.value.trim(),
       );
 
-      Get.offAllNamed(
-        Routes.BERANDA,
-      );
+      if (FirebaseAuth.instance.currentUser != null && !FirebaseAuth.instance.currentUser!.emailVerified) {
+        Get.offAllNamed(Routes.VERIFICATION);
+      } else {
+        Get.offAllNamed(Routes.BERANDA);
+      }
 
     } catch (e) {
 

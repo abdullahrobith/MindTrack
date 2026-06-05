@@ -3,28 +3,30 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../constants/api_constants.dart';
 
 class GoogleSignInService {
-  static bool _isInitialized = false;
+  static final GoogleSignIn _googleSignIn = GoogleSignIn(
+    serverClientId: ApiConstants.googleWebClientId,
+    scopes: ['email', 'profile'],
+  );
 
   static Future<void> init() async {
-    if (!_isInitialized) {
-      await GoogleSignIn.instance.initialize(
-        clientId: ApiConstants.googleWebClientId,
-      );
-      _isInitialized = true;
-    }
+    // Initialization handled by the constructor
   }
 
   static Future<String?> signInAndGetIdToken() async {
-    await init();
     try {
-      final account = await GoogleSignIn.instance.authenticate(
-        scopeHint: const ['email', 'profile'],
-      );
+      final account = await _googleSignIn.signIn();
+      if (account == null) return null;
+      
       final auth = await account.authentication;
       return auth.idToken;
     } catch (e) {
+      print("Google SignIn Error: $e");
       return null;
     }
+  }
+
+  static Future<void> signOut() async {
+    await _googleSignIn.signOut();
   }
 }
 

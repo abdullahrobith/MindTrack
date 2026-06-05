@@ -20,6 +20,8 @@ import '../modules/selesai/bindings/selesai_binding.dart';
 import '../modules/selesai/views/selesai_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/verification/bindings/verification_binding.dart';
+import '../modules/verification/views/verification_view.dart';
 
 part 'app_routes.dart';
 
@@ -79,6 +81,11 @@ class AppPages {
       name: _Paths.REGISTER,
       page: () => const RegisterView(),
       binding: RegisterBinding(),
+    ),
+    GetPage(
+      name: _Paths.VERIFICATION,
+      page: () => const VerificationView(),
+      binding: VerificationBinding(),
     ),
   ];
 }

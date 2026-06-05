@@ -9,9 +9,14 @@ class AuthView extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FB),
-      body: SafeArea(
+    return Theme(
+      data: ThemeData.light().copyWith(
+        primaryColor: const Color(0xFF2E66E7),
+        colorScheme: const ColorScheme.light(primary: Color(0xFF2E66E7)),
+      ),
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF5F7FB),
+        body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -188,6 +193,7 @@ class AuthView extends GetView<AuthController> {
               ],
             ),
           ),
+        ),
         ),
       ),
     );

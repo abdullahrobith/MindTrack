@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "576424233833",
+    "project_id": "mindtrack-d3590",
+    "storage_bucket": "mindtrack-d3590.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576424233833:android:8436a8148477981bbb4bf8",
+        "android_client_info": {
+          "package_name": "com.example.capstone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576424233833-us9bj91giglstdarafjdhuqqube4qp3e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.capstone",
+            "certificate_hash": "ebce72037ab7c17a05c5d0d9e7285c16036391a7"
+          }
+        },
+        {
+          "client_id": "576424233833-hfees4mrkc84euvhqpp977dh89bvf1f0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_XcF3Iw99LxOR4GHwF8Guq-miA7ANY70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576424233833-hfees4mrkc84euvhqpp977dh89bvf1f0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
