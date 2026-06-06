@@ -5,11 +5,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'app/routes/app_pages.dart';
 import 'app/controllers/navigation_controller.dart';
 import 'app/core/controllers/global_auth_controller.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Hive.initFlutter();
+  await Hive.openBox('journals');
 
   Get.put(
     NavigationController(),
