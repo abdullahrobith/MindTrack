@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../core/controllers/global_auth_controller.dart';
 import '../../../routes/app_pages.dart';
@@ -15,9 +15,7 @@ class AuthController extends GetxController {
   RxBool isLoading = false.obs;
 
   Future<void> login() async {
-
     try {
-
       isLoading.value = true;
 
       await globalAuth.login(
@@ -25,21 +23,18 @@ class AuthController extends GetxController {
         password: password.value.trim(),
       );
 
-      if (FirebaseAuth.instance.currentUser != null && !FirebaseAuth.instance.currentUser!.emailVerified) {
+      final user = globalAuth.currentUser.value;
+      if (user != null && !user.isVerified) {
         Get.offAllNamed(Routes.VERIFICATION);
-      } else {
+      } else if (user != null) {
         Get.offAllNamed(Routes.BERANDA);
       }
-
     } catch (e) {
-
       Get.snackbar(
         'Error',
-        e.toString(),
+        e.toString().replaceAll('Exception: ', ''),
       );
-
     } finally {
-
       isLoading.value = false;
     }
   }
@@ -47,14 +42,37 @@ class AuthController extends GetxController {
   Future<void> loginWithGoogle() async {
     try {
       isLoading.value = true;
-
       await globalAuth.loginWithGoogle();
-
       Get.offAllNamed(Routes.BERANDA);
     } catch (e) {
       Get.snackbar(
         'Error',
-        e.toString(),
+        e.toString().replaceAll('Exception: ', ''),
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> forgotPassword() async {
+    if (email.value.trim().isEmpty) {
+      Get.snackbar('Error', 'Silakan isi email terlebih dahulu');
+      return;
+    }
+
+    try {
+      isLoading.value = true;
+      await globalAuth.forgotPassword(email: email.value.trim());
+      Get.snackbar(
+        'Berhasil', 
+        'Link reset password telah dikirim ke email Anda jika terdaftar',
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        e.toString().replaceAll('Exception: ', ''),
       );
     } finally {
       isLoading.value = false;

@@ -8,7 +8,7 @@ class HasilView extends GetView<HasilController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: const Color(0xFF2E66E7),
         elevation: 0,
@@ -34,7 +34,7 @@ class HasilView extends GetView<HasilController> {
                 child: Center(
                   child: Obx(() => Text(
                     "${controller.score.value}",
-                    style: const TextStyle(fontSize: 60, fontWeight: FontWeight.bold, color: Color(0xFF1B434D)),
+                    style: const TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
                   )),
                 ),
               ),
@@ -44,7 +44,7 @@ class HasilView extends GetView<HasilController> {
                 style: const TextStyle(fontSize: 12, color: Colors.grey, letterSpacing: 1.2))),
             const SizedBox(height: 5),
             Obx(() => Text("Current Status: ${controller.status.value}", 
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1B434D)))),
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold))),
             
             const SizedBox(height: 25),
 
@@ -52,18 +52,18 @@ class HasilView extends GetView<HasilController> {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: const Color(0xFFF3F7FA),
+                color: Theme.of(context).brightness == Brightness.dark ? Colors.grey.shade800 : const Color(0xFFF3F7FA),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text("Everything looks okay!", 
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1B434D))),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   SizedBox(height: 10),
                   Text(
                     "Your results suggest a healthy emotional balance. While there are slight indicators of temporary stress, your resilience remains high. This is a great time to lean into preventive self-care to maintain this stability.",
-                    style: TextStyle(fontSize: 13, color: Colors.black54, height: 1.5),
+                    style: TextStyle(fontSize: 13, color: Colors.grey, height: 1.5),
                   ),
                 ],
               ),
@@ -133,7 +133,7 @@ class HasilView extends GetView<HasilController> {
           Icon(icon, color: Colors.green.shade200, size: 24),
           const SizedBox(height: 10),
           Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
-          Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF1B434D))),
+          Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -158,7 +158,7 @@ class HasilView extends GetView<HasilController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF1B434D))),
+                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
                 Text(subtitle, style: const TextStyle(fontSize: 11, color: Colors.grey)),
               ],
             ),

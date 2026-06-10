@@ -32,12 +32,9 @@ dependencies:
   hive_flutter: ^1.1.0
   just_audio: ^0.9.40
   animate_do: ^5.1.0
-  cloud_firestore: ^6.5.0
   cupertino_icons: ^1.0.8
   dio: ^5.9.0
   email_validator: ^3.0.0
-  firebase_auth: ^6.5.2
-  firebase_core: ^4.10.0
   fl_chart: ^1.2.0
   flutter:
     sdk: flutter

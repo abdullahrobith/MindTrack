@@ -100,11 +100,14 @@ class AuthView extends GetView<AuthController> {
                       ),
                     ),
                     const SizedBox(height: 6),
-                    Text(
-                      "Forgot?",
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 12,
+                    GestureDetector(
+                      onTap: () => controller.forgotPassword(),
+                      child: Text(
+                        "Forgot?",
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 12,
+                        ),
                       ),
                     )
                   ],

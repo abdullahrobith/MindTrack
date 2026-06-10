@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../data/providers/auth_provider.dart' as my_provider;
 import '../models/user_model.dart';
 import '../services/google_sign_in_service.dart';
-import '../../routes/app_pages.dart';
+import '../config/network_config.dart';
 
 class GlobalAuthController extends GetxController {
   final my_provider.AuthProvider _provider = my_provider.AuthProvider();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   Rxn<UserModel> currentUser = Rxn<UserModel>();
   RxBool isDarkMode = false.obs;
@@ -20,16 +19,9 @@ class GlobalAuthController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-      if (user != null) {
-        await getCurrentUser();
-      } else {
-        currentUser.value = null;
-      }
-    });
-
-    const storage = FlutterSecureStorage();
-    storage.read(key: "isDarkMode").then((val) {
+    _initAuth();
+    
+    _storage.read(key: "isDarkMode").then((val) {
       if (val != null) {
         isDarkMode.value = val == "true";
         Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
@@ -39,11 +31,34 @@ class GlobalAuthController extends GetxController {
     GoogleSignInService.init();
   }
 
-  Future<void> login({required String email, required String password}) async {
-    final response = await _provider.login(email: email, password: password);
-    if (response.user != null && response.user!.emailVerified) {
+  Future<void> _initAuth() async {
+    final token = await _storage.read(key: 'jwt_token');
+    if (token != null) {
+      NetworkConfig.token = token;
       await getCurrentUser();
     }
+  }
+
+  Future<void> login({required String email, required String password}) async {
+    await _provider.login(email: email, password: password);
+    if (NetworkConfig.token != null) {
+      await _storage.write(key: 'jwt_token', value: NetworkConfig.token);
+      await getCurrentUser();
+    }
+  }
+
+  Future<void> register({required String name, required String email, required String password}) async {
+    await _provider.register(name: name, email: email, password: password);
+    // Auto login setelah register agar token terisi (mirip dengan Firebase)
+    await login(email: email, password: password);
+  }
+
+  Future<void> resendVerification({required String email}) async {
+    await _provider.resendVerification(email);
+  }
+
+  Future<void> forgotPassword({required String email}) async {
+    await _provider.forgotPassword(email);
   }
 
   Future<void> loginWithGoogle() async {
@@ -55,13 +70,9 @@ class GlobalAuthController extends GetxController {
         throw Exception('Login Google dibatalkan');
       }
 
-      final credential = GoogleAuthProvider.credential(
-        idToken: idToken,
-      );
-
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-      if (userCredential.user != null) {
-        await _provider.saveGoogleUserToFirestore(userCredential.user!);
+      await _provider.loginWithGoogleBackend(idToken);
+      if (NetworkConfig.token != null) {
+        await _storage.write(key: 'jwt_token', value: NetworkConfig.token);
         await getCurrentUser();
       }
     } catch (e) {
@@ -69,21 +80,21 @@ class GlobalAuthController extends GetxController {
     }
   }
 
-  Future<void> register({required String name, required String email, required String password}) async {
-    await _provider.register(name: name, email: email, password: password);
-  }
-
   Future<void> getCurrentUser() async {
-    User? firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser == null) return;
+    if (NetworkConfig.token == null) {
+      currentUser.value = null;
+      return;
+    }
 
-    UserModel? userModel = await _provider.getUserFromFirestore(firebaseUser.uid);
+    UserModel? userModel = await _provider.getCurrentUser();
     if (userModel != null) {
       currentUser.value = userModel;
       isDarkMode.value = currentUser.value?.theme == "dark";
       Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
-      const storage = FlutterSecureStorage();
-      storage.write(key: "isDarkMode", value: isDarkMode.value.toString());
+      await _storage.write(key: "isDarkMode", value: isDarkMode.value.toString());
+    } else {
+      // Token is invalid or expired
+      await logout();
     }
   }
 
@@ -91,8 +102,7 @@ class GlobalAuthController extends GetxController {
     isDarkMode.value = theme == "dark";
     Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
     
-    const storage = FlutterSecureStorage();
-    await storage.write(key: "isDarkMode", value: isDarkMode.value.toString());
+    await _storage.write(key: "isDarkMode", value: isDarkMode.value.toString());
     
     currentUser.update((user) {
       user?.theme = theme;
@@ -117,8 +127,9 @@ class GlobalAuthController extends GetxController {
   }
 
   Future<void> logout() async {
-    await FirebaseAuth.instance.signOut();
-    await GoogleSignInService.signOut();
+    await _storage.delete(key: 'jwt_token');
+    NetworkConfig.token = null;
     currentUser.value = null;
+    await GoogleSignInService.signOut();
   }
 }

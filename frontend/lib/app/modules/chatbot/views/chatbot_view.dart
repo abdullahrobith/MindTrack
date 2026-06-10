@@ -13,7 +13,7 @@ class ChatbotView extends GetView<ChatbotController> {
     Get.find<NavigationController>().currentIndex.value = 2;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
 
       // ================= APPBAR =================
       appBar: AppBar(
@@ -34,8 +34,8 @@ class ChatbotView extends GetView<ChatbotController> {
       body: Column(
         children: [
           // Header
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
             child: Column(
               children: [
                 Text(
@@ -43,11 +43,11 @@ class ChatbotView extends GetView<ChatbotController> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: Color(0xFF1B434D),
+                    color: Get.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
-                SizedBox(height: 5),
-                Text(
+                const SizedBox(height: 5),
+                const Text(
                   "Ceritakan apa yang kamu rasakan hari ini.",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.grey, fontSize: 12),
@@ -114,8 +114,8 @@ class ChatbotView extends GetView<ChatbotController> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: isSender
-            ? const Color(0xFFE3F2FD)
-            : const Color(0xFFE8F5E9),
+            ? (Get.isDarkMode ? const Color(0xFF1A237E) : const Color(0xFFE3F2FD))
+            : (Get.isDarkMode ? const Color(0xFF263238) : const Color(0xFFE8F5E9)),
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(18),
           topRight: const Radius.circular(18),
@@ -125,9 +125,9 @@ class ChatbotView extends GetView<ChatbotController> {
       ),
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 13,
-          color: Colors.black87,
+          color: Get.isDarkMode ? Colors.white : Colors.black87,
           height: 1.4,
         ),
       ),
@@ -139,9 +139,9 @@ class ChatbotView extends GetView<ChatbotController> {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.scaffoldBackgroundColor,
         border: Border(
-          top: BorderSide(color: Colors.grey.shade100),
+          top: BorderSide(color: Get.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100),
         ),
       ),
       child: SafeArea(
@@ -152,12 +152,13 @@ class ChatbotView extends GetView<ChatbotController> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade50,
+                  color: Get.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade50,
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(color: Get.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade200),
                 ),
                 child: TextField(
                   controller: controller.textController,
+                  style: TextStyle(color: Get.theme.textTheme.bodyLarge?.color),
                   decoration: const InputDecoration(
                     hintText: "Share your thoughts...",
                     border: InputBorder.none,

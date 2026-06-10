@@ -3,7 +3,8 @@ from datetime import datetime, timezone
 from bson import ObjectId
 from fastapi import HTTPException, status
 
-from app.core.security import hash_password, verify_password
+from app.core.security import hash_password, verify_password, create_short_lived_token, decode_access_token
+from app.services.email_service import send_verification_email, send_password_changed_email, send_reset_password_email
 from app.db.mongodb import db
 from app.schemas.user import UserCreate, UserResponse, UserUpdate
 
@@ -61,6 +62,11 @@ def create_user(data: UserCreate) -> UserResponse:
 
     result = users_collection.insert_one(user_doc)
     user_doc["_id"] = result.inserted_id
+    
+    # Send verification email
+    token = create_short_lived_token(email, minutes=60)
+    send_verification_email(email, token)
+    
     return user_to_response(user_doc)
 
 
@@ -187,6 +193,10 @@ def update_user(user_id: str, data: UserUpdate) -> UserResponse:
         return user_to_response(user)
 
     users_collection.update_one({"_id": user["_id"]}, {"$set": update_data})
+    
+    if "hashed_password" in update_data:
+        send_password_changed_email(user["email"])
+        
     updated = get_user_by_id(user_id)
     return user_to_response(updated)
 
@@ -204,3 +214,46 @@ def delete_user(user_id: str) -> None:
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User tidak ditemukan",
         )
+
+def verify_email_token(token: str):
+    try:
+        payload = decode_access_token(token)
+        email = payload.get("sub")
+        if not email or payload.get("type") != "short":
+            raise ValueError()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Token tidak valid atau kedaluwarsa")
+        
+    user = get_user_by_email(email)
+    if not user:
+        raise HTTPException(status_code=404, detail="User tidak ditemukan")
+        
+    users_collection.update_one({"_id": user["_id"]}, {"$set": {"is_verified": True}})
+
+def process_forgot_password(email: str):
+    user = get_user_by_email(email.lower())
+    if not user:
+        # Don't reveal if user exists or not, just return
+        return
+        
+    token = create_short_lived_token(user["email"], minutes=60)
+    send_reset_password_email(user["email"], token)
+
+def process_reset_password(token: str, new_password: str):
+    try:
+        payload = decode_access_token(token)
+        email = payload.get("sub")
+        if not email or payload.get("type") != "short":
+            raise ValueError()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Token tidak valid atau kedaluwarsa")
+        
+    user = get_user_by_email(email)
+    if not user:
+        raise HTTPException(status_code=404, detail="User tidak ditemukan")
+        
+    users_collection.update_one(
+        {"_id": user["_id"]}, 
+        {"$set": {"hashed_password": hash_password(new_password)}}
+    )
+    send_password_changed_email(email)

@@ -21,6 +21,14 @@ class Settings(BaseSettings):
     # Client ID tambahan (Android/iOS), pisahkan dengan koma
     GOOGLE_CLIENT_IDS: str = ""
 
+    SMTP_HOST: str = "smtp.gmail.com"
+    SMTP_PORT: int = 587
+    SMTP_EMAIL: str = "mindtrack26@gmail.com"
+    SMTP_PASSWORD: str = ""
+    
+    # URL backend untuk reset password
+    APP_URL: str = "http://192.168.1.7:5000"
+
     @property
     def google_audiences(self) -> list[str]:
         audiences: list[str] = []
