@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/controllers/global_auth_controller.dart';
 import '../../../routes/app_pages.dart';
 
@@ -17,17 +16,16 @@ class VerificationController extends GetxController {
   Future<void> checkVerificationStatus() async {
     isLoading.value = true;
     try {
-      await FirebaseAuth.instance.currentUser?.reload();
-      if (FirebaseAuth.instance.currentUser?.emailVerified == true) {
-        // Force refresh current user logic if needed, but Firebase auth state
-        // doesn't always automatically catch emailVerified immediately without reload
-        await globalAuth.getCurrentUser();
+      await globalAuth.getCurrentUser();
+      final user = globalAuth.currentUser.value;
+      
+      if (user != null && user.isVerified) {
         Get.offAllNamed(Routes.BERANDA);
       } else {
-        Get.snackbar('Informasi', 'Email belum diverifikasi. Silakan cek inbox Anda.');
+        Get.snackbar('Informasi', 'Email belum diverifikasi. Silakan cek inbox Anda dan klik link verifikasi.');
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar('Error', e.toString().replaceAll('Exception: ', ''));
     } finally {
       isLoading.value = false;
     }
@@ -39,16 +37,22 @@ class VerificationController extends GetxController {
       return;
     }
 
+    final email = globalAuth.currentUser.value?.email;
+    if (email == null) {
+      Get.snackbar('Error', 'Sesi tidak valid. Silakan login ulang.');
+      return;
+    }
+
     isLoading.value = true;
     try {
-      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
-      Get.snackbar('Berhasil', 'Email verifikasi telah dikirim ulang.');
+      await globalAuth.resendVerification(email: email);
+      Get.snackbar('Berhasil', 'Email verifikasi telah dikirim ulang. Silakan cek inbox Anda.');
       
       // Start 60 second cooldown
       cooldown.value = 60;
       _startCooldown();
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      Get.snackbar('Error', e.toString().replaceAll('Exception: ', ''));
     } finally {
       isLoading.value = false;
     }

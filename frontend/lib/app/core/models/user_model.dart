@@ -1,57 +1,47 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class UserModel {
-  final String uid;
+  final String id;
   final String name;
   final String email;
   final String provider;
   String gender;
   String theme;
   final String? photoUrl;
-  final bool emailVerified;
-  final DateTime? createdAt;
-  final DateTime? lastLoginAt;
+  final bool isVerified;
 
   UserModel({
-    required this.uid,
+    required this.id,
     required this.name,
     required this.email,
     required this.provider,
     required this.gender,
     required this.theme,
     required this.photoUrl,
-    required this.emailVerified,
-    this.createdAt,
-    this.lastLoginAt,
+    required this.isVerified,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      uid: json['uid'] ?? '',
+      id: json['id'] ?? '',
       name: json['name'] ?? '',
       email: json['email'] ?? '',
-      provider: json['provider'] ?? 'manual',
-      gender: json['gender'] ?? 'Belum dipilih',
+      provider: json['provider'] ?? 'local',
+      gender: json['gender'] ?? 'unknown',
       theme: json['theme'] ?? 'light',
-      photoUrl: json['photoUrl'],
-      emailVerified: json['emailVerified'] ?? false,
-      createdAt: json['createdAt'] != null ? (json['createdAt'] as Timestamp).toDate() : null,
-      lastLoginAt: json['lastLoginAt'] != null ? (json['lastLoginAt'] as Timestamp).toDate() : null,
+      photoUrl: json['photo_url'],
+      isVerified: json['is_verified'] ?? false,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'uid': uid,
+      'id': id,
       'name': name,
       'email': email,
       'provider': provider,
       'gender': gender,
       'theme': theme,
-      'photoUrl': photoUrl,
-      'emailVerified': emailVerified,
-      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : FieldValue.serverTimestamp(),
-      'lastLoginAt': lastLoginAt != null ? Timestamp.fromDate(lastLoginAt!) : FieldValue.serverTimestamp(),
+      'photo_url': photoUrl,
+      'is_verified': isVerified,
     };
   }
 }

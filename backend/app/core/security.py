@@ -29,6 +29,15 @@ def create_access_token(subject: str) -> str:
         algorithm=settings.JWT_ALGORITHM,
     )
 
+def create_short_lived_token(subject: str, minutes: int = 60) -> str:
+    expire = datetime.now(timezone.utc) + timedelta(minutes=minutes)
+    payload = {"sub": subject, "exp": expire, "type": "short"}
+    return jwt.encode(
+        payload,
+        settings.JWT_SECRET,
+        algorithm=settings.JWT_ALGORITHM,
+    )
+
 
 def decode_access_token(token: str) -> dict:
     return jwt.decode(

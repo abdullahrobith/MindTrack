@@ -13,7 +13,7 @@ class RiwayatView extends GetView<RiwayatController> {
     Get.find<NavigationController>().currentIndex.value = 3;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
 
       // ================= APPBAR =================
       appBar: AppBar(
@@ -36,12 +36,12 @@ class RiwayatView extends GetView<RiwayatController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               "History",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1B434D),
+                color: Get.theme.textTheme.bodyLarge?.color,
               ),
             ),
             const SizedBox(height: 5),
@@ -111,8 +111,8 @@ class RiwayatView extends GetView<RiwayatController> {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.grey.shade100),
-        color: Colors.white,
+        border: Border.all(color: Get.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade100),
+        color: Get.isDarkMode ? Colors.grey.shade800 : Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.03),
@@ -125,7 +125,7 @@ class RiwayatView extends GetView<RiwayatController> {
         children: [
           // ICON
           CircleAvatar(
-            backgroundColor: Colors.green.shade50,
+            backgroundColor: Colors.green.withOpacity(0.1),
             child: Text(item['icon']),
           ),
 
@@ -138,9 +138,10 @@ class RiwayatView extends GetView<RiwayatController> {
               children: [
                 Text(
                   item['date'],
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 13,
+                    color: Get.theme.textTheme.bodyLarge?.color,
                   ),
                 ),
                 const SizedBox(height: 4),

@@ -14,7 +14,7 @@ class KonsultasiView extends GetView<KonsultasiController> {
     Get.find<NavigationController>().currentIndex.value = 1;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
 
       appBar: AppBar(
         backgroundColor: const Color(0xFF2E66E7),
@@ -53,12 +53,12 @@ class KonsultasiView extends GetView<KonsultasiController> {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          const Text(
+          Text(
             "Konsultasi Hari Ini",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1B434D),
+              color: Get.theme.textTheme.bodyLarge?.color,
             ),
           ),
           const SizedBox(height: 5),
@@ -73,7 +73,7 @@ class KonsultasiView extends GetView<KonsultasiController> {
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: Get.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(30),
             ),
             child: Obx(() => Row(
@@ -151,7 +151,7 @@ Widget _buildVoiceBody() {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.green.shade50,
+                color: Colors.green.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Text(
@@ -160,15 +160,15 @@ Widget _buildVoiceBody() {
               ),
             ),
 
-            const Padding(
-              padding: EdgeInsets.all(30),
+            Padding(
+              padding: const EdgeInsets.all(30),
               child: Text(
                 "Apa satu hal yang membuat Anda merasa paling tenang hari ini?",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF1B434D),
+                  color: Get.theme.textTheme.bodyLarge?.color,
                 ),
               ),
             ),
@@ -188,22 +188,19 @@ Widget _buildVoiceBody() {
 
   // ================= MANUAL =================
   Widget _buildManualBody() {
-  return SingleChildScrollView(
-    padding: const EdgeInsets.all(20),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+return SingleChildScrollView(
+  padding: const EdgeInsets.all(20),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
 
-        // ================= PHQ =================
-
-        const Text(
-          "PHQ Assessment",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+      const Text(
+        "PHQ Assessment",
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
         ),
-
+      ),
         const SizedBox(height: 15),
 
         ...List.generate(
@@ -466,8 +463,8 @@ Widget _buildVoiceBody() {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label),
-            Text("${val.toStringAsFixed(1)} Jam"),
+            Text(label, style: TextStyle(color: Get.theme.textTheme.bodyMedium?.color)),
+            Text("${val.toStringAsFixed(1)} Jam", style: TextStyle(color: Get.theme.textTheme.bodyMedium?.color)),
           ],
         ),
         Slider(

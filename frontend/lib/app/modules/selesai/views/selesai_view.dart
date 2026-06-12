@@ -13,7 +13,7 @@ class SelesaiView extends StatelessWidget {
     Get.find<NavigationController>().currentIndex.value = 1;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       appBar: AppBar(
         backgroundColor: const Color(0xFF2E66E7),
@@ -36,7 +36,6 @@ class SelesaiView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1B434D),
               ),
             ),
 
