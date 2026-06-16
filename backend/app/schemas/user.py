@@ -5,6 +5,8 @@ class UserCreate(BaseModel):
     name: str = Field(min_length=2, max_length=100)
     email: EmailStr
     password: str = Field(min_length=6, max_length=128)
+    gender: str | None = None
+    date_of_birth: str | None = None
 
 
 class UserLogin(BaseModel):
@@ -19,6 +21,7 @@ class UserUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=2, max_length=100)
     email: EmailStr | None = None
     gender: str | None = None
+    date_of_birth: str | None = None
     password: str | None = Field(default=None, min_length=6, max_length=128)
     confirm_password: str | None = Field(default=None, min_length=6, max_length=128)
     theme: str | None = None
@@ -32,6 +35,7 @@ class UserResponse(BaseModel):
     email: EmailStr
     provider: str = "local"
     gender: str = "unknown"
+    date_of_birth: str | None = None
     theme: str = "light"
     photo_url: str | None = None
     is_verified: bool = False

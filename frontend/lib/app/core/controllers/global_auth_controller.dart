@@ -47,8 +47,20 @@ class GlobalAuthController extends GetxController {
     }
   }
 
-  Future<void> register({required String name, required String email, required String password}) async {
-    await _provider.register(name: name, email: email, password: password);
+  Future<void> register({
+    required String name,
+    required String email,
+    required String password,
+    required String gender,
+    required String tanggalLahir,
+  }) async {
+    await _provider.register(
+      name: name,
+      email: email,
+      password: password,
+      gender: gender,
+      tanggalLahir: tanggalLahir,
+    );
     // Auto login setelah register agar token terisi (mirip dengan Firebase)
     await login(email: email, password: password);
   }
@@ -115,12 +127,14 @@ class GlobalAuthController extends GetxController {
     required String name,
     required String email,
     required String gender,
+    required String tanggalLahir,
     String? password,
   }) async {
     await _provider.updateProfile(
       name: name,
       email: email,
       gender: gender,
+      tanggalLahir: tanggalLahir,
       password: password,
     );
     await getCurrentUser();

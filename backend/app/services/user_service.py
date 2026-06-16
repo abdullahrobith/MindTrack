@@ -18,6 +18,7 @@ def user_to_response(user: dict) -> UserResponse:
         email=user.get("email") or "",
         provider=user.get("provider") or "local",
         gender=user.get("gender") or "unknown",
+        date_of_birth=user.get("date_of_birth"),
         theme=user.get("theme") or "light",
         photo_url=user.get("photo_url"),
         is_verified=bool(user.get("is_verified", False)),
@@ -53,7 +54,8 @@ def create_user(data: UserCreate) -> UserResponse:
         "email": email,
         "hashed_password": hash_password(data.password),
         "provider": "local",
-        "gender": "unknown",
+        "gender": data.gender or "unknown",
+        "date_of_birth": data.date_of_birth,
         "theme": "light",
         "photo_url": None,
         "is_verified": False,
@@ -140,6 +142,7 @@ def login_or_register_with_google(id_token: str) -> dict:
             "provider": "google",
             "google_id": google_id,
             "gender": "unknown",
+            "date_of_birth": None,
             "theme": "light",
             "photo_url": photo_url,
             "is_verified": is_verified,
@@ -177,6 +180,9 @@ def update_user(user_id: str, data: UserUpdate) -> UserResponse:
 
     if data.gender is not None:
         update_data["gender"] = data.gender
+
+    if data.date_of_birth is not None:
+        update_data["date_of_birth"] = data.date_of_birth
 
     if data.theme is not None:
         update_data["theme"] = data.theme

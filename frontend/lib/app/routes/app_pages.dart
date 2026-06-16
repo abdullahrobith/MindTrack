@@ -16,8 +16,8 @@ import '../modules/journal/bindings/journal_binding.dart';
 import '../modules/journal/views/journal_view.dart';
 import '../modules/konsultasi/bindings/konsultasi_binding.dart';
 import '../modules/konsultasi/views/konsultasi_view.dart';
-import '../modules/profil/bindings/profil_binding.dart';
-import '../modules/profil/views/profil_view.dart';
+import '../modules/pengaturan/bindings/pengaturan_binding.dart';
+import '../modules/pengaturan/views/pengaturan_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/relaxation_music/bindings/relaxation_music_binding.dart';
@@ -66,9 +66,9 @@ class AppPages {
       binding: RiwayatBinding(),
     ),
     GetPage(
-      name: _Paths.PROFIL,
-      page: () => const ProfilView(),
-      binding: ProfilBinding(),
+      name: _Paths.PENGATURAN,
+      page: () => const PengaturanView(),
+      binding: PengaturanBinding(),
     ),
     GetPage(
       name: _Paths.KONSULTASI,

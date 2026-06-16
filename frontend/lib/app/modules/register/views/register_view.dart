@@ -102,6 +102,55 @@ class RegisterView extends GetView<RegisterController> {
 
                     const SizedBox(height: 16),
 
+                    /// 🚻 JENIS KELAMIN
+                    Obx(() => Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF5F7FB),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: controller.gender.value,
+                              items: ["Belum dipilih", "Pria", "Wanita", "Lainnya"]
+                                  .map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value, style: const TextStyle(color: Colors.black87)),
+                                );
+                              }).toList(),
+                              onChanged: (val) {
+                                if (val != null) controller.gender.value = val;
+                              },
+                            ),
+                          ),
+                        )),
+
+                    const SizedBox(height: 16),
+
+                    /// 📅 TANGGAL LAHIR
+                    Obx(() => TextField(
+                          readOnly: true,
+                          onTap: () => controller.selectDate(context),
+                          decoration: InputDecoration(
+                            labelText: "Tanggal Lahir",
+                            hintText: controller.tanggalLahir.value.isEmpty
+                                ? "Pilih tanggal lahir"
+                                : controller.tanggalLahir.value,
+                            filled: true,
+                            fillColor: const Color(0xFFF5F7FB),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                            suffixIcon: const Icon(Icons.calendar_today),
+                          ),
+                        )),
+
+                    const SizedBox(height: 16),
+
                     /// 🔒 PASSWORD
                     _inputField(
                       label: "Password",

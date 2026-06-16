@@ -19,6 +19,9 @@ class NavigationController extends GetxController {
       case 3:
         Get.offAllNamed('/riwayat');
         break;
+      case 4:
+        Get.offAllNamed('/pengaturan');
+        break;
     }
   }
 }

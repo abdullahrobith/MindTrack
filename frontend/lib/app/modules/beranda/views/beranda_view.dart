@@ -103,32 +103,7 @@ class BerandaView extends GetView<BerandaController> {
         color: Colors.white,
       ),
 
-      actions: [
-
-        Padding(
-
-          padding: const EdgeInsets.only(right: 15),
-
-          child: InkWell(
-
-            borderRadius: BorderRadius.circular(50),
-
-            onTap: () => Get.toNamed('/profil'),
-
-            child: const CircleAvatar(
-
-              backgroundColor: Colors.white,
-
-              child: Icon(
-
-                Icons.person,
-
-                color: Color(0xFF2E66E7),
-              ),
-            ),
-          ),
-        )
-      ],
+      actions: [],
     );
   }
 

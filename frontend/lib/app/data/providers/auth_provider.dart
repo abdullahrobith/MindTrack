@@ -27,6 +27,8 @@ class AuthProvider {
     required String name,
     required String email,
     required String password,
+    required String gender,
+    required String tanggalLahir,
   }) async {
     final res = await http.post(
       Uri.parse('${NetworkConfig.baseUrl}/auth/register'),
@@ -35,6 +37,8 @@ class AuthProvider {
         'name': name,
         'email': email,
         'password': password,
+        'gender': gender,
+        'date_of_birth': tanggalLahir,
       }),
     ).timeout(const Duration(seconds: 10));
 
@@ -112,6 +116,7 @@ class AuthProvider {
     String? name,
     String? email,
     String? gender,
+    String? tanggalLahir,
     String? password,
     String? theme,
   }) async {
@@ -121,6 +126,7 @@ class AuthProvider {
     if (name != null) data['name'] = name;
     if (email != null) data['email'] = email;
     if (gender != null) data['gender'] = gender;
+    if (tanggalLahir != null) data['date_of_birth'] = tanggalLahir;
     if (theme != null) data['theme'] = theme;
     
     if (password != null && password.isNotEmpty) {

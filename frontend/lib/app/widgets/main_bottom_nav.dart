@@ -23,6 +23,8 @@ class MainBottomNav extends StatelessWidget {
                 icon: Icon(Icons.chat_bubble_outline), label: 'Chatbot'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.history), label: 'Riwayat'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: 'Pengaturan'),
           ],
         ));
   }
