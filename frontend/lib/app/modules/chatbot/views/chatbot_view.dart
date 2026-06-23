@@ -173,15 +173,16 @@ class ChatbotView extends GetView<ChatbotController> {
             const SizedBox(width: 10),
 
             // Send Button
-            GestureDetector(
-              onTap: () => controller.sendMessage(),
-              child: const CircleAvatar(
+            Obx(() => GestureDetector(
+              onTap: controller.isLoading.value ? null : () => controller.sendMessage(),
+              child: CircleAvatar(
                 radius: 24,
-                backgroundColor: Color(0xFF2E66E7),
-                child: Icon(Icons.send,
-                    color: Colors.white, size: 20),
+                backgroundColor: controller.isLoading.value ? Colors.grey : const Color(0xFF2E66E7),
+                child: controller.isLoading.value 
+                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                    : const Icon(Icons.send, color: Colors.white, size: 20),
               ),
-            ),
+            )),
           ],
         ),
       ),

@@ -113,7 +113,7 @@ class RegisterView extends GetView<RegisterController> {
                             child: DropdownButton<String>(
                               isExpanded: true,
                               value: controller.gender.value,
-                              items: ["Belum dipilih", "Pria", "Wanita", "Lainnya"]
+                              items: ["Belum dipilih", "Pria", "Wanita"]
                                   .map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,

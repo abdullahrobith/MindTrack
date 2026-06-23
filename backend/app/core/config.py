@@ -29,6 +29,10 @@ class Settings(BaseSettings):
     # URL backend untuk reset password
     APP_URL: str = "http://192.168.1.7:5000"
 
+    # Groq settings
+    GROQ_API_KEY: str = ""
+    GROQ_MODEL: str = "llama-3.3-70b-versatile"
+
     @property
     def google_audiences(self) -> list[str]:
         audiences: list[str] = []
