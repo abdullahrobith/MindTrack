@@ -1,6 +1,6 @@
 class ApiConstants {
   static const String baseUrl =
-      'https://swan-compactor-revenge.ngrok-free.dev';
+      "http://192.168.123.151:5000";
 
   // Web Client ID dari Google Cloud Console (OAuth 2.0)
   static const String googleWebClientId =

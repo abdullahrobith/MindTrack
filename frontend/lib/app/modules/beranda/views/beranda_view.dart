@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:fl_chart/fl_chart.dart';
 import '../controllers/beranda_controller.dart';
 import '../../../data/models/article_model.dart';
 import '../../../core/controllers/global_auth_controller.dart';
@@ -45,6 +45,9 @@ class BerandaView extends GetView<BerandaController> {
 
               _buildSummaryCard(),
 
+              const SizedBox(height: 25),
+              
+              _buildMentalProgressChart(),
               const SizedBox(height: 25),
 
               _buildWeeklyTrend(context),
@@ -336,6 +339,369 @@ class BerandaView extends GetView<BerandaController> {
       ),
     );
   }
+
+Widget _buildMentalProgressChart() {
+
+  return Obx(() {
+
+    if (controller.isLoadingMentalChart.value) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (controller.mentalHistory.isEmpty) {
+      return const SizedBox();
+    }
+
+    final histories = controller.mentalHistory;
+
+    final latestScore =
+        histories.first["final_score"] ?? 0;
+
+    final oldestScore =
+        histories.last["final_score"] ?? 0;
+
+    final diff =
+        latestScore - oldestScore;
+
+    final chartColor =
+        diff >= 0
+            ? Colors.green
+            : Colors.red;
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius:
+            BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color:
+                Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+
+          const Row(
+            children: [
+              Icon(
+                Icons.show_chart,
+                color: Color(0xFF2E66E7),
+              ),
+              SizedBox(width: 8),
+              Text(
+                "Perkembangan Mental",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight:
+                      FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+
+          Row(
+            children: [
+
+              Expanded(
+                child: Container(
+                  padding:
+                      const EdgeInsets.all(14),
+                  decoration:
+                      BoxDecoration(
+                    color: const Color(
+                            0xFF2E66E7)
+                        .withOpacity(0.08),
+                    borderRadius:
+                        BorderRadius.circular(
+                            15),
+                  ),
+                  child: Column(
+                    children: [
+
+                      const Text(
+                        "Score Terakhir",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
+
+                      const SizedBox(
+                          height: 5),
+
+                      Text(
+                        "$latestScore",
+                        style:
+                            const TextStyle(
+                          fontSize: 24,
+                          fontWeight:
+                              FontWeight.bold,
+                          color: Color(
+                              0xFF2E66E7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(width: 12),
+
+              Expanded(
+                child: Container(
+                  padding:
+                      const EdgeInsets.all(14),
+                  decoration:
+                      BoxDecoration(
+                    color: chartColor
+                        .withOpacity(0.08),
+                    borderRadius:
+                        BorderRadius.circular(
+                            15),
+                  ),
+                  child: Column(
+                    children: [
+
+                      const Text(
+                        "Perubahan",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
+
+                      const SizedBox(
+                          height: 5),
+
+                      Text(
+                        diff >= 0
+                            ? "+$diff"
+                            : "$diff",
+                        style:
+                            TextStyle(
+                          fontSize: 24,
+                          fontWeight:
+                              FontWeight.bold,
+                          color:
+                              chartColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 25),
+
+          SizedBox(
+            height: 250,
+            child: LineChart(
+
+              LineChartData(
+
+                minY: 0,
+                maxY: 100,
+
+                borderData:
+                    FlBorderData(
+                  show: false,
+                ),
+
+                gridData:
+                    FlGridData(
+                  show: true,
+                ),
+
+                lineTouchData:
+                    LineTouchData(
+
+                  touchTooltipData:
+                      LineTouchTooltipData(
+
+                    getTooltipItems:
+                        (spots) {
+
+                      return spots
+                          .map(
+                            (spot) =>
+                                LineTooltipItem(
+                              "Score ${spot.y.toInt()}",
+                              const TextStyle(
+                                color:
+                                    Colors.white,
+                                fontWeight:
+                                    FontWeight
+                                        .bold,
+                              ),
+                            ),
+                          )
+                          .toList();
+                    },
+                  ),
+                ),
+
+                titlesData:
+                    FlTitlesData(
+
+                  topTitles:
+                      const AxisTitles(),
+
+                  rightTitles:
+                      const AxisTitles(),
+
+                  leftTitles:
+                      AxisTitles(
+
+                    sideTitles:
+                        SideTitles(
+
+                      showTitles: true,
+
+                      interval: 20,
+
+                      reservedSize: 35,
+
+                      getTitlesWidget:
+                          (value,
+                              meta) {
+
+                        return Text(
+                          value
+                              .toInt()
+                              .toString(),
+                          style:
+                              const TextStyle(
+                            fontSize: 10,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  bottomTitles:
+                      AxisTitles(
+
+                    sideTitles:
+                        SideTitles(
+
+                      showTitles: true,
+
+                      interval: 1,
+
+                      getTitlesWidget:
+                          (value,
+                              meta) {
+
+                        final index =
+                            value.toInt();
+
+                        if (index <
+                                0 ||
+                            index >=
+                                histories.length) {
+                          return const SizedBox();
+                        }
+
+                        final date =
+                            DateTime.parse(
+                          histories[index]
+                              ["created_at"],
+                        );
+
+                        return Padding(
+                          padding:
+                              const EdgeInsets.only(
+                                  top: 8),
+                          child: Text(
+                            "${date.day}/${date.month}",
+                            style:
+                                const TextStyle(
+                              fontSize: 10,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+
+                lineBarsData: [
+
+                  LineChartBarData(
+
+                    isCurved: true,
+
+                    color:
+                        chartColor,
+
+                    barWidth: 4,
+
+                    dotData:
+                        FlDotData(
+                      show: true,
+                    ),
+
+                    belowBarData:
+                        BarAreaData(
+                      show: true,
+                      color: chartColor
+                          .withOpacity(
+                              0.15),
+                    ),
+
+                    spots:
+                        List.generate(
+
+                      histories.length,
+
+                      (index) {
+
+                        final item =
+                            histories[
+                                index];
+
+                        return FlSpot(
+                          index
+                              .toDouble(),
+                          (item["final_score"] ??
+                                  0)
+                              .toDouble(),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          Text(
+            "${histories.length} assessment tercatat",
+            style: const TextStyle(
+              color: Colors.grey,
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  });
+}
+
 
 Widget _trendTile(
 

@@ -8,7 +8,7 @@ import '../models/trend_model.dart';
 class ApiService {
 
   // GANTI DENGAN IP BACKEND KAMU
-  static const baseUrl = "http://192.168.14.151:5000";
+  static const baseUrl = "http://192.168.123.151:5000";
 
 
   // =========================================

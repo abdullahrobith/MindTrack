@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'app/routes/app_pages.dart';
 import 'app/controllers/navigation_controller.dart';
 import 'app/core/controllers/global_auth_controller.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
 
@@ -20,6 +21,9 @@ void main() async {
   );
 
   await auth.getCurrentUser();
+  await Hive.initFlutter();
+
+  await Hive.openBox('journals');
 
   runApp(
     MyApp(auth),

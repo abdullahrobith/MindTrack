@@ -1,189 +1,423 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/riwayat_controller.dart';
 import '../../../widgets/main_bottom_nav.dart';
-import '../../../controllers/navigation_controller.dart';
+
+import '../controllers/riwayat_controller.dart';
 
 class RiwayatView extends GetView<RiwayatController> {
-  const RiwayatView({Key? key}) : super(key: key);
+  const RiwayatView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // SET INDEX NAVBAR = 3 (Riwayat)
-    Get.find<NavigationController>().currentIndex.value = 3;
-
     return Scaffold(
-      backgroundColor: Get.theme.scaffoldBackgroundColor,
+      backgroundColor:
+          Theme.of(context).scaffoldBackgroundColor,
 
-      // ================= APPBAR =================
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2E66E7),
         elevation: 0,
-        centerTitle: false,
+        backgroundColor: const Color(0xFF2E66E7),
         title: const Text(
-          'MindTrack',
+          "Riwayat Assessment",
           style: TextStyle(
-            fontWeight: FontWeight.bold,
             color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        leading: const Icon(Icons.spa, color: Colors.white),
+        centerTitle: true,
       ),
 
-      // ================= BODY =================
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "History",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Get.theme.textTheme.bodyLarge?.color,
-              ),
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              "Your journey towards peace and clarity, archived for your reflection.",
-              style: TextStyle(color: Colors.grey, fontSize: 13),
-            ),
-            const SizedBox(height: 20),
+      body: Obx(() {
 
-            // LIST HISTORY
-            Obx(() => ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.historyData.length,
-                  itemBuilder: (context, index) {
-                    var section = controller.historyData[index];
+        if (controller.isLoading.value) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildMonthSeparator(section['month'] as String),
-
-                        ...(section['items'] as List)
-                            .map((item) => _buildHistoryCard(item))
-                            .toList(),
-                      ],
-                    );
-                  },
-                )),
-          ],
-        ),
-      ),
-
-      // ================= BOTTOM NAV =================
-      bottomNavigationBar: const MainBottomNav(),
-    );
-  }
-
-  // ================= MONTH SEPARATOR =================
-  Widget _buildMonthSeparator(String month) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      child: Row(
-        children: [
-          const Expanded(child: Divider()),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              month,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const Expanded(child: Divider()),
-        ],
-      ),
-    );
-  }
-
-  // ================= CARD =================
-  Widget _buildHistoryCard(Map<String, dynamic> item) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Get.isDarkMode ? Colors.grey.shade700 : Colors.grey.shade100),
-        color: Get.isDarkMode ? Colors.grey.shade800 : Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          )
-        ],
-      ),
-      child: Row(
-        children: [
-          // ICON
-          CircleAvatar(
-            backgroundColor: Colors.green.withOpacity(0.1),
-            child: Text(item['icon']),
-          ),
-
-          const SizedBox(width: 15),
-
-          // TEXT
-          Expanded(
+        if (controller.histories.isEmpty) {
+          return Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              mainAxisAlignment:
+                  MainAxisAlignment.center,
+              children: const [
+
+                Icon(
+                  Icons.history,
+                  size: 80,
+                  color: Colors.grey,
+                ),
+
+                SizedBox(height: 15),
+
                 Text(
-                  item['date'],
+                  "Belum Ada Riwayat Assessment",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    color: Get.theme.textTheme.bodyLarge?.color,
+                    fontSize: 16,
+                    fontWeight:
+                        FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const Icon(Icons.circle,
-                        size: 8, color: Colors.green),
-                    const SizedBox(width: 5),
-                    Text(
-                      item['mood'],
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
 
-          // BUTTON
-          TextButton(
-            onPressed: () {
-              // nanti bisa diarahkan ke detail hasil
-            },
-            child: const Row(
-              children: [
+                SizedBox(height: 5),
+
                 Text(
-                  "DETAIL",
+                  "Lakukan assessment terlebih dahulu",
                   style: TextStyle(
-                    fontSize: 10,
                     color: Colors.grey,
                   ),
                 ),
-                Icon(Icons.chevron_right,
-                    size: 16, color: Colors.grey),
               ],
             ),
-          )
-        ],
-      ),
+          );
+        }
+
+        return Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+
+              // =====================
+              // HEADER CARD
+              // =====================
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEAF4FF),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    Row(
+                      children: const [
+                        Icon(
+                          Icons.trending_up,
+                          color: Color(0xFF2E66E7),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          "Perkembangan Mental",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    Obx(() {
+
+                      if (controller.histories.length < 2) {
+                        return const Text(
+                          "Belum cukup data untuk melihat perkembangan.",
+                          style: TextStyle(fontSize: 14),
+                        );
+                      }
+
+                      final latest =
+                          controller.histories[0]["final_score"];
+
+                      final previous =
+                          controller.histories[1]["final_score"];
+
+                      final diff = latest - previous;
+
+                      return Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                        children: [
+
+                          Text(
+                            diff >= 0
+                                ? "+$diff poin dibanding assessment sebelumnya"
+                                : "$diff poin dibanding assessment sebelumnya",
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: diff >= 0
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          Text(
+                            diff > 0
+                                ? "Status: Meningkat 📈"
+                                : diff < 0
+                                    ? "Status: Menurun 📉"
+                                    : "Status: Stabil ➖",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 25),
+
+              Align(
+                alignment:
+                    Alignment.centerLeft,
+                child: Text(
+                  "RIWAYAT TERBARU",
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontWeight:
+                        FontWeight.bold,
+                    letterSpacing: 1,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount:
+                      controller.histories.length,
+
+                  itemBuilder:
+                      (context, index) {
+
+                    final item =
+                        controller
+                            .histories[index];
+
+                    final score =
+                        item["final_score"] ??
+                            0;
+
+                    final level =
+                        item["level"] ??
+                            "-";
+
+                    Color statusColor;
+
+                    if (score >= 80) {
+                      statusColor =
+                          Colors.green;
+                    } else if (score >=
+                        60) {
+                      statusColor =
+                          Colors.blue;
+                    } else if (score >=
+                        40) {
+                      statusColor =
+                          Colors.orange;
+                    } else {
+                      statusColor =
+                          Colors.red;
+                    }
+
+                    return InkWell(
+                      borderRadius:
+                          BorderRadius
+                              .circular(
+                        20,
+                      ),
+
+                      onTap: () {
+
+                        Get.toNamed(
+                          '/hasil',
+                          arguments: item,
+                        );
+
+                      },
+
+                      child: Container(
+                        margin:
+                            const EdgeInsets
+                                .only(
+                          bottom: 15,
+                        ),
+
+                        padding:
+                            const EdgeInsets
+                                .all(
+                          18,
+                        ),
+
+                        decoration:
+                            BoxDecoration(
+                          color:
+                              Theme.of(
+                                      context)
+                                  .cardColor,
+
+                          borderRadius:
+                              BorderRadius
+                                  .circular(
+                            20,
+                          ),
+
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors
+                                  .black
+                                  .withOpacity(
+                                      0.05),
+
+                              blurRadius:
+                                  12,
+
+                              offset:
+                                  const Offset(
+                                      0, 4),
+                            ),
+                          ],
+                        ),
+
+                        child: Row(
+                          children: [
+
+                            // SCORE
+
+                            Container(
+                              width: 65,
+                              height: 65,
+
+                              decoration:
+                                  BoxDecoration(
+                                shape:
+                                    BoxShape
+                                        .circle,
+
+                                color: statusColor
+                                    .withOpacity(
+                                        0.12),
+                              ),
+
+                              child: Center(
+                                child: Text(
+                                  "$score",
+
+                                  style:
+                                      TextStyle(
+                                    fontSize:
+                                        22,
+
+                                    fontWeight:
+                                        FontWeight
+                                            .bold,
+
+                                    color:
+                                        statusColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(
+                                width: 16),
+
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment
+                                        .start,
+
+                                children: [
+
+                                  Text(
+                                    level,
+
+                                    style:
+                                        TextStyle(
+                                      fontSize:
+                                          18,
+
+                                      fontWeight:
+                                          FontWeight
+                                              .bold,
+
+                                      color:
+                                          statusColor,
+                                    ),
+                                  ),
+
+                                  const SizedBox(
+                                      height:
+                                          5),
+
+                                  const Text(
+                                    "Assessment Kesehatan Mental",
+                                  ),
+
+                                  const SizedBox(
+                                      height:
+                                          8),
+
+                                  Row(
+                                    children: [
+
+                                      const Icon(
+                                        Icons
+                                            .calendar_today,
+                                        size:
+                                            14,
+                                        color:
+                                            Colors.grey,
+                                      ),
+
+                                      const SizedBox(
+                                          width:
+                                              5),
+
+                                      Text(
+                                        item["created_at"]
+                                            .toString()
+                                            .substring(
+                                                0,
+                                                10),
+
+                                        style:
+                                            const TextStyle(
+                                          color:
+                                              Colors.grey,
+
+                                          fontSize:
+                                              12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            const Icon(
+                              Icons
+                                  .arrow_forward_ios,
+                              size: 18,
+                              color:
+                                  Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+      bottomNavigationBar: const MainBottomNav(),
     );
   }
 }
