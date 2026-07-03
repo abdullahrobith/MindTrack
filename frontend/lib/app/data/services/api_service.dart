@@ -7,9 +7,12 @@ import '../models/trend_model.dart';
 
 class ApiService {
 
-  // GANTI DENGAN IP BACKEND KAMU
-  static const baseUrl = "http://192.168.123.151:5000";
+  static const baseUrl = "https://swan-compactor-revenge.ngrok-free.dev";
 
+  static const _headers = {
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true',
+  };
 
   // =========================================
   // GET ARTICLES
@@ -19,6 +22,7 @@ class ApiService {
 
     final response = await http.get(
       Uri.parse('$baseUrl/articles'),
+      headers: _headers,
     );
 
     final data = jsonDecode(response.body);
@@ -40,6 +44,7 @@ class ApiService {
       Uri.parse(
         '$baseUrl/search-realtime/$keyword',
       ),
+      headers: _headers,
     );
 
     final data = jsonDecode(response.body);
@@ -58,6 +63,7 @@ class ApiService {
 
     final response = await http.get(
       Uri.parse('$baseUrl/weekly-trend'),
+      headers: _headers,
     );
 
     final data = jsonDecode(response.body);

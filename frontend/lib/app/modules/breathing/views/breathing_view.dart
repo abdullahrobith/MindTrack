@@ -177,6 +177,8 @@ class _BreathingViewState extends State<BreathingView>
       appBar: AppBar(
         title: const Text("Latihan Pernapasan"),
         backgroundColor: const Color(0xFF2E66E7),
+        foregroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           // 🎵 toggle music
           IconButton(
@@ -199,12 +201,17 @@ class _BreathingViewState extends State<BreathingView>
 
           // 🌈 background
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color(0xFFF4F8FF),
-                  Colors.white,
-                ],
+                colors: Theme.of(context).brightness == Brightness.dark
+                    ? [
+                        Theme.of(context).scaffoldBackgroundColor,
+                        Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+                      ]
+                    : [
+                        const Color(0xFFF4F8FF),
+                        Colors.white,
+                      ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -318,7 +325,7 @@ class _BreathingViewState extends State<BreathingView>
           vertical: 8,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF2E66E7) : Colors.white,
+          color: isSelected ? const Color(0xFF2E66E7) : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: const Color(0xFF2E66E7)),
         ),

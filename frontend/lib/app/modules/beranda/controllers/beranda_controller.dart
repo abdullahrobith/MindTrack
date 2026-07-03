@@ -81,6 +81,10 @@ class BerandaController extends GetxController {
         Uri.parse(
           '${NetworkConfig.baseUrl}/articles',
         ),
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true',
+        },
       );
 
       if (response.statusCode == 200) {
@@ -110,6 +114,10 @@ class BerandaController extends GetxController {
         Uri.parse(
           '${NetworkConfig.baseUrl}/search-realtime/$keyword',
         ),
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true',
+        },
       );
 
       if (response.statusCode == 200) {
@@ -146,6 +154,10 @@ class BerandaController extends GetxController {
         Uri.parse(
           '${NetworkConfig.baseUrl}/weekly-trend',
         ),
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true',
+        },
       );
 
       if (response.statusCode == 200) {

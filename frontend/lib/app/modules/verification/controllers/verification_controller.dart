@@ -37,8 +37,9 @@ class VerificationController extends GetxController {
       return;
     }
 
-    final email = globalAuth.currentUser.value?.email;
-    if (email == null) {
+    // Ambil email dari currentUser (jika sudah login) atau pendingEmail (setelah register)
+    final email = globalAuth.currentUser.value?.email ?? globalAuth.pendingEmail;
+    if (email == null || email.isEmpty) {
       Get.snackbar('Error', 'Sesi tidak valid. Silakan login ulang.');
       return;
     }

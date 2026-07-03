@@ -15,13 +15,18 @@ class GoogleSignInService {
   static Future<String?> signInAndGetIdToken() async {
     try {
       final account = await _googleSignIn.signIn();
-      if (account == null) return null;
-      
+      if (account == null) {
+        print("Google SignIn: User cancelled");
+        return null;
+      }
+
+      print("Google SignIn: Account = ${account.email}");
       final auth = await account.authentication;
+      print("Google SignIn: idToken = ${auth.idToken != null ? 'OK' : 'NULL'}");
       return auth.idToken;
     } catch (e) {
       print("Google SignIn Error: $e");
-      return null;
+      rethrow;
     }
   }
 

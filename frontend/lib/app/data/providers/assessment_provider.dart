@@ -5,6 +5,11 @@ import '../../core/config/network_config.dart';
 
 class AssessmentProvider {
 
+  static const _baseHeaders = {
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true',
+  };
+
   // ==========================
   // SUBMIT ASSESSMENT
   // ==========================
@@ -41,9 +46,8 @@ class AssessmentProvider {
         '${NetworkConfig.baseUrl}/assessment/submit',
       ),
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer ${NetworkConfig.token}',
+        ..._baseHeaders,
+        'Authorization': 'Bearer ${NetworkConfig.token}',
       },
       body: jsonEncode(payload),
     );
@@ -66,8 +70,8 @@ class AssessmentProvider {
         '${NetworkConfig.baseUrl}/assessment/history',
       ),
       headers: {
-        'Authorization':
-            'Bearer ${NetworkConfig.token}',
+        ..._baseHeaders,
+        'Authorization': 'Bearer ${NetworkConfig.token}',
       },
     );
 

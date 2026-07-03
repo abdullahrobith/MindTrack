@@ -51,10 +51,10 @@ class HasilView extends GetView<HasilController> {
                   child: Obx(
                     () => Text(
                       "${controller.finalScore.value}",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 60,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1B434D),
+                        color: Get.isDarkMode ? Colors.white : const Color(0xFF1B434D),
                       ),
                     ),
                   ),
@@ -80,10 +80,10 @@ class HasilView extends GetView<HasilController> {
             Obx(
               () => Text(
                 "Status: ${controller.level.value}",
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1B434D),
+                  color: Get.isDarkMode ? Colors.white : const Color(0xFF1B434D),
                 ),
               ),
             ),
@@ -122,7 +122,7 @@ class HasilView extends GetView<HasilController> {
               () => Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF3F7FA),
+                  color: Get.theme.cardColor,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Column(
@@ -132,10 +132,10 @@ class HasilView extends GetView<HasilController> {
 
                     Text(
                       _getTitle(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: Color(0xFF1B434D),
+                        color: Get.theme.textTheme.bodyLarge?.color,
                       ),
                     ),
 
@@ -143,9 +143,9 @@ class HasilView extends GetView<HasilController> {
 
                     Text(
                       _getDescription(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
-                        color: Colors.black54,
+                        color: Get.isDarkMode ? Colors.white70 : Colors.black54,
                         height: 1.5,
                       ),
                     ),
@@ -211,11 +211,13 @@ Obx(
     width: double.infinity,
     padding: const EdgeInsets.all(18),
     decoration: BoxDecoration(
-      gradient: const LinearGradient(
-        colors: [
-          Color(0xFFEAF4FF),
-          Color(0xFFF7FBFF),
-        ],
+      gradient: LinearGradient(
+        colors: Get.isDarkMode 
+            ? [Get.theme.cardColor, Get.theme.cardColor.withOpacity(0.8)]
+            : const [
+                Color(0xFFEAF4FF),
+                Color(0xFFF7FBFF),
+              ],
       ),
       borderRadius: BorderRadius.circular(18),
       border: Border.all(
@@ -245,12 +247,12 @@ Obx(
 
             const SizedBox(width: 10),
 
-            const Text(
+            Text(
               "Highlight Hari Ini",
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1B434D),
+                color: Get.theme.textTheme.bodyLarge?.color,
               ),
             ),
           ],
@@ -266,10 +268,10 @@ Obx(
                   : controller.finalScore.value >= 40
                       ? "Beberapa aspek kesehatan mental dan gaya hidup masih perlu ditingkatkan."
                       : "Kondisi Anda memerlukan perhatian lebih. Luangkan waktu untuk pemulihan dan jangan ragu mencari dukungan.",
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
             height: 1.6,
-            color: Colors.black87,
+            color: Get.isDarkMode ? Colors.white70 : Colors.black87,
           ),
         ),
       ],
@@ -414,7 +416,7 @@ const SizedBox(height: 30),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          color: Colors.grey.shade100,
+          color: Get.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100,
         ),
       ),
       child: Column(
@@ -442,10 +444,10 @@ const SizedBox(height: 30),
 
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1B434D),
+              color: Get.isDarkMode ? Colors.white : const Color(0xFF1B434D),
             ),
           ),
         ],
@@ -462,10 +464,10 @@ const SizedBox(height: 30),
     margin: const EdgeInsets.only(bottom: 12),
     padding: const EdgeInsets.all(15),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: Get.theme.cardColor,
       borderRadius: BorderRadius.circular(15),
       border: Border.all(
-        color: Colors.grey.shade200,
+        color: Get.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200,
       ),
     ),
     child: Row(
@@ -524,7 +526,7 @@ const SizedBox(height: 30),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          color: Colors.grey.shade100,
+          color: Get.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100,
         ),
       ),
       child: Row(

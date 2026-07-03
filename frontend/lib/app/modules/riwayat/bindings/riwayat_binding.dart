@@ -7,8 +7,9 @@ class RiwayatBinding extends Bindings {
   @override
   void dependencies() {
     // Menghubungkan Controller ke View saat halaman dibuka
-    Get.lazyPut<RiwayatController>(
-      () => RiwayatController(),
+    Get.put<RiwayatController>(
+      RiwayatController(),
+      permanent: true,
     );
   }
 }

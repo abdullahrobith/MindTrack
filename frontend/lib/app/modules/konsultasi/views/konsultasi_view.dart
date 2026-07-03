@@ -19,15 +19,14 @@ class KonsultasiView extends GetView<KonsultasiController> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF2E66E7),
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         title: const Text(
-          'MindTrack',
+          'Konsultasi',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: const Icon(Icons.spa, color: Colors.white),
       ),
 
       body: Column(

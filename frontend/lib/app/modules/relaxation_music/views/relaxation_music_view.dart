@@ -115,15 +115,22 @@ class _RelaxationMusicViewState extends State<RelaxationMusicView>
       appBar: AppBar(
         title: const Text("Musik Relaksasi"),
         backgroundColor: const Color(0xFF2E66E7),
+        foregroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
 
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFF5F7FF),
-              Color(0xFFEAF0FF),
-            ],
+            colors: Theme.of(context).brightness == Brightness.dark
+                ? [
+                    Theme.of(context).scaffoldBackgroundColor,
+                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+                  ]
+                : [
+                    const Color(0xFFF5F7FF),
+                    const Color(0xFFEAF0FF),
+                  ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -156,7 +163,7 @@ class _RelaxationMusicViewState extends State<RelaxationMusicView>
                 decoration: BoxDecoration(
                   color: isPlaying
                       ? const Color(0xFF2E66E7)
-                      : Colors.white,
+                      : Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
@@ -193,7 +200,7 @@ class _RelaxationMusicViewState extends State<RelaxationMusicView>
                     style: TextStyle(
                       color: isPlaying
                           ? Colors.white
-                          : Colors.black,
+                          : Theme.of(context).textTheme.bodyLarge?.color,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

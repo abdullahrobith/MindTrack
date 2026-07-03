@@ -17,13 +17,16 @@ def send_email(to_email: str, subject: str, html_content: str):
     msg.attach(part1)
 
     try:
-        server = smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT, timeout=5)
+        # Naikkan timeout dari 5 → 15 detik agar tidak timeout di jaringan lambat
+        server = smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT, timeout=15)
         server.starttls()
         server.login(settings.SMTP_EMAIL, settings.SMTP_PASSWORD)
         server.sendmail(settings.SMTP_EMAIL, to_email, msg.as_string())
         server.quit()
+        print(f"[EMAIL OK] Email berhasil dikirim ke {to_email}")
     except Exception as e:
-        print(f"Failed to send email to {to_email}: {e}")
+        # Jangan re-raise: gagal kirim email TIDAK boleh menggagalkan register/reset password
+        print(f"[EMAIL ERROR] Gagal kirim email ke {to_email}: {type(e).__name__}: {e}")
 
 def send_verification_email(to_email: str, token: str):
     link = f"{settings.APP_URL}/auth/verify-email?token={token}"

@@ -84,8 +84,18 @@ class RiwayatView extends GetView<RiwayatController> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEAF4FF),
+                  color: Theme.of(context).brightness == Brightness.dark 
+                      ? Theme.of(context).cardColor 
+                      : const Color(0xFFEAF4FF),
                   borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    if (Theme.of(context).brightness == Brightness.dark)
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                  ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

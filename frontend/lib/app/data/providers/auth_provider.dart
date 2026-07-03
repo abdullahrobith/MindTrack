@@ -4,15 +4,20 @@ import '../../core/models/user_model.dart';
 import '../../core/config/network_config.dart';
 
 class AuthProvider {
+  static const _headers = {
+    'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true',
+  };
+
   Future<void> login({
     required String email,
     required String password,
   }) async {
     final res = await http.post(
       Uri.parse('${NetworkConfig.baseUrl}/auth/login'),
-      headers: {'Content-Type': 'application/json'},
+      headers: _headers,
       body: jsonEncode({'email': email, 'password': password}),
-    ).timeout(const Duration(seconds: 10));
+    ).timeout(const Duration(seconds: 30));
 
     if (res.statusCode == 200) {
       final data = jsonDecode(res.body);
@@ -32,7 +37,7 @@ class AuthProvider {
   }) async {
     final res = await http.post(
       Uri.parse('${NetworkConfig.baseUrl}/auth/register'),
-      headers: {'Content-Type': 'application/json'},
+      headers: _headers,
       body: jsonEncode({
         'name': name,
         'email': email,
@@ -40,7 +45,7 @@ class AuthProvider {
         'gender': gender,
         'date_of_birth': tanggalLahir,
       }),
-    ).timeout(const Duration(seconds: 10));
+    ).timeout(const Duration(seconds: 30));
 
     if (res.statusCode != 201) {
       final errorData = jsonDecode(res.body);
@@ -51,9 +56,9 @@ class AuthProvider {
   Future<void> resendVerification(String email) async {
     final res = await http.post(
       Uri.parse('${NetworkConfig.baseUrl}/auth/resend-verification'),
-      headers: {'Content-Type': 'application/json'},
+      headers: _headers,
       body: jsonEncode({'email': email}),
-    ).timeout(const Duration(seconds: 10));
+    ).timeout(const Duration(seconds: 30));
 
     if (res.statusCode != 200) {
       final errorData = jsonDecode(res.body);
@@ -64,9 +69,9 @@ class AuthProvider {
   Future<void> forgotPassword(String email) async {
     final res = await http.post(
       Uri.parse('${NetworkConfig.baseUrl}/auth/forgot-password'),
-      headers: {'Content-Type': 'application/json'},
+      headers: _headers,
       body: jsonEncode({'email': email}),
-    ).timeout(const Duration(seconds: 10));
+    ).timeout(const Duration(seconds: 30));
 
     if (res.statusCode != 200) {
       final errorData = jsonDecode(res.body);
@@ -77,11 +82,11 @@ class AuthProvider {
   Future<void> loginWithGoogleBackend(String idToken) async {
     final res = await http.post(
       Uri.parse('${NetworkConfig.baseUrl}/auth/google'),
-      headers: {'Content-Type': 'application/json'},
+      headers: _headers,
       body: jsonEncode({
         'id_token': idToken,
       }),
-    ).timeout(const Duration(seconds: 10));
+    ).timeout(const Duration(seconds: 30));
 
     if (res.statusCode == 200) {
       final data = jsonDecode(res.body);
@@ -98,10 +103,10 @@ class AuthProvider {
     final res = await http.get(
       Uri.parse('${NetworkConfig.baseUrl}/auth/me'),
       headers: {
-        'Content-Type': 'application/json',
+        ..._headers,
         'Authorization': 'Bearer ${NetworkConfig.token}',
       },
-    ).timeout(const Duration(seconds: 10));
+    ).timeout(const Duration(seconds: 30));
 
     if (res.statusCode == 200) {
       final data = jsonDecode(res.body);
@@ -138,11 +143,11 @@ class AuthProvider {
       final res = await http.put(
         Uri.parse('${NetworkConfig.baseUrl}/auth/profile'),
         headers: {
-          'Content-Type': 'application/json',
+          ..._headers,
           'Authorization': 'Bearer ${NetworkConfig.token}',
         },
         body: jsonEncode(data),
-      ).timeout(const Duration(seconds: 10));
+      ).timeout(const Duration(seconds: 30));
 
       if (res.statusCode != 200) {
         final errorData = jsonDecode(res.body);

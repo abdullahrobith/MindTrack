@@ -107,7 +107,7 @@ class _AffirmationViewState extends State<AffirmationView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F8FF),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       body: GestureDetector(
         onTap: next,
@@ -116,15 +116,21 @@ class _AffirmationViewState extends State<AffirmationView>
 
             // 🌿 SOFT GRADIENT GLOW BACKGROUND
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: RadialGradient(
                   center: Alignment.topCenter,
                   radius: 1.2,
-                  colors: [
-                    Color(0xFFEAF0FF),
-                    Color(0xFFF6F8FF),
-                    Color(0xFFFFFFFF),
-                  ],
+                  colors: Theme.of(context).brightness == Brightness.dark
+                      ? [
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
+                          Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+                        ]
+                      : [
+                          const Color(0xFFEAF0FF),
+                          const Color(0xFFF6F8FF),
+                          const Color(0xFFFFFFFF),
+                        ],
                 ),
               ),
             ),
@@ -146,7 +152,7 @@ class _AffirmationViewState extends State<AffirmationView>
                         child: Text(
                           affirmations[index],
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 24,
                             height: 1.8,
 
@@ -155,7 +161,7 @@ class _AffirmationViewState extends State<AffirmationView>
                             letterSpacing: 0.5,
 
                             // elegan calm color
-                            color: Color(0xFF1F2430),
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
 
                             // lebih “soft reading feel”
                             fontFamily: 'Georgia',

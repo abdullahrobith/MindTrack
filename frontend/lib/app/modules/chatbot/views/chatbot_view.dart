@@ -19,15 +19,15 @@ class ChatbotView extends GetView<ChatbotController> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF2E66E7),
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         title: const Text(
-          'MindTrack',
+          'MindTrack Chatbot',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: const Icon(Icons.spa, color: Colors.white),
+
       ),
 
       // ================= BODY =================
@@ -162,6 +162,10 @@ class ChatbotView extends GetView<ChatbotController> {
                   decoration: const InputDecoration(
                     hintText: "Share your thoughts...",
                     border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
                     hintStyle:
                         TextStyle(fontSize: 14, color: Colors.grey),
                   ),

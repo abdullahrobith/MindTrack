@@ -4,15 +4,48 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../core/constants/api_constants.dart';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 class ChatbotController extends GetxController {
   final textController = TextEditingController();
   final scrollController = ScrollController();
+  final _storage = const FlutterSecureStorage();
 
   final messages = <Map<String, dynamic>>[
     {'text': "Halo! Aku MindTrack, asisten virtual kesehatan mentalmu. Ada yang bisa aku bantu hari ini?", 'isSender': false},
   ].obs;
   
   final isLoading = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _loadMessages();
+  }
+
+  Future<void> _loadMessages() async {
+    try {
+      final savedData = await _storage.read(key: 'chatbot_messages');
+      if (savedData != null) {
+        final List<dynamic> decoded = jsonDecode(savedData);
+        if (decoded.isNotEmpty) {
+          messages.value = decoded.map((e) => Map<String, dynamic>.from(e)).toList();
+          _scrollToBottom();
+        }
+      }
+    } catch (e) {
+      print("Error loading messages: $e");
+    }
+  }
+
+  Future<void> _saveMessages() async {
+    try {
+      final encoded = jsonEncode(messages);
+      await _storage.write(key: 'chatbot_messages', value: encoded);
+    } catch (e) {
+      print("Error saving messages: $e");
+    }
+  }
 
   Future<void> sendMessage() async {
     final text = textController.text.trim();
@@ -22,6 +55,7 @@ class ChatbotController extends GetxController {
       'text': text,
       'isSender': true,
     });
+    _saveMessages();
     textController.clear();
     _scrollToBottom();
 
@@ -37,7 +71,10 @@ class ChatbotController extends GetxController {
 
       final response = await http.post(
         Uri.parse('${ApiConstants.baseUrl}/chatbot/'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true',
+        },
         body: jsonEncode({"messages": messagesPayload}),
       );
 
@@ -47,17 +84,20 @@ class ChatbotController extends GetxController {
           'text': data['reply'],
           'isSender': false,
         });
+        _saveMessages();
       } else {
         messages.add({
           'text': "Maaf, aku sedang mengalami gangguan koneksi. Coba lagi nanti ya.",
           'isSender': false,
         });
+        _saveMessages();
       }
     } catch (e) {
       messages.add({
         'text': "Maaf, terjadi kesalahan. Coba periksa koneksi internetmu.",
         'isSender': false,
       });
+      _saveMessages();
     } finally {
       isLoading.value = false;
       _scrollToBottom();

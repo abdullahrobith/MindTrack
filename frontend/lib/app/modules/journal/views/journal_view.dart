@@ -94,6 +94,8 @@ class _JournalViewState extends State<JournalView> {
       appBar: AppBar(
         title: const Text("Jurnal Harian"),
         backgroundColor: const Color(0xFF2E66E7),
+        foregroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
 
       body: Padding(
@@ -107,7 +109,9 @@ class _JournalViewState extends State<JournalView> {
               child: Container(
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEAF0FF),
+                  color: Theme.of(context).brightness == Brightness.dark 
+                      ? Theme.of(context).cardColor 
+                      : const Color(0xFFEAF0FF),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Text("💬 $guideText"),
@@ -144,7 +148,9 @@ class _JournalViewState extends State<JournalView> {
                         decoration: BoxDecoration(
                           color: isSelected
                               ? const Color(0xFF2E66E7)
-                              : Colors.grey.shade200,
+                              : (Theme.of(context).brightness == Brightness.dark 
+                                  ? Colors.grey.shade800 
+                                  : Colors.grey.shade200),
                           shape: BoxShape.circle,
                           border: isSelected
                               ? Border.all(color: Colors.blue, width: 2)
@@ -154,7 +160,7 @@ class _JournalViewState extends State<JournalView> {
                           m,
                           style: TextStyle(
                             fontSize: 22,
-                            color: isSelected ? Colors.white : Colors.black,
+                            color: isSelected ? Colors.white : Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
                       ),

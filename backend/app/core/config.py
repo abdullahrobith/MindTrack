@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     SMTP_PASSWORD: str = ""
     
     # URL backend untuk reset password
-    APP_URL: str = "http://192.168.123.151:5000"
+    APP_URL: str = "https://swan-compactor-revenge.ngrok-free.dev"
 
     # Groq settings
     GROQ_API_KEY: str = ""

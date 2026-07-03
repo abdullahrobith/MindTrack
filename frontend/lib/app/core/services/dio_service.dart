@@ -8,8 +8,8 @@ class DioService {
       baseUrl:
           ApiConstants.baseUrl,
       headers: {
-        'Content-Type':
-            'application/json',
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true',
       },
     ),
   );
