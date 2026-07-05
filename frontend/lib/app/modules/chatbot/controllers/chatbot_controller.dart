@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../core/constants/api_constants.dart';
+import '../../../core/controllers/global_auth_controller.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -10,6 +11,11 @@ class ChatbotController extends GetxController {
   final textController = TextEditingController();
   final scrollController = ScrollController();
   final _storage = const FlutterSecureStorage();
+
+  String get _storageKey {
+    final email = Get.find<GlobalAuthController>().currentUser.value?.email ?? 'guest';
+    return 'chatbot_messages_$email';
+  }
 
   final messages = <Map<String, dynamic>>[
     {'text': "Halo! Aku MindTrack, asisten virtual kesehatan mentalmu. Ada yang bisa aku bantu hari ini?", 'isSender': false},
@@ -25,7 +31,7 @@ class ChatbotController extends GetxController {
 
   Future<void> _loadMessages() async {
     try {
-      final savedData = await _storage.read(key: 'chatbot_messages');
+      final savedData = await _storage.read(key: _storageKey);
       if (savedData != null) {
         final List<dynamic> decoded = jsonDecode(savedData);
         if (decoded.isNotEmpty) {
@@ -41,7 +47,7 @@ class ChatbotController extends GetxController {
   Future<void> _saveMessages() async {
     try {
       final encoded = jsonEncode(messages);
-      await _storage.write(key: 'chatbot_messages', value: encoded);
+      await _storage.write(key: _storageKey, value: encoded);
     } catch (e) {
       print("Error saving messages: $e");
     }

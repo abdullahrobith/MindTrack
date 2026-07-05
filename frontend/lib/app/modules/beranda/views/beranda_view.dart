@@ -7,12 +7,14 @@ import '../../../data/models/article_model.dart';
 import '../../../core/controllers/global_auth_controller.dart';
 
 import '../../../widgets/main_bottom_nav.dart';
+import '../../../controllers/navigation_controller.dart';
 
 class BerandaView extends GetView<BerandaController> {
   const BerandaView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.find<NavigationController>().currentIndex.value = 0;
     return Scaffold(
       resizeToAvoidBottomInset: true,
 

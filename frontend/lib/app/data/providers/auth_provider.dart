@@ -117,6 +117,50 @@ class AuthProvider {
     }
   }
 
+  Future<void> registerFace(String imageBase64) async {
+    if (NetworkConfig.token == null) return;
+
+    String imageData = imageBase64;
+    if (!imageData.startsWith('data:')) {
+      imageData = 'data:image/jpeg;base64,$imageData';
+    }
+
+    final res = await http.post(
+      Uri.parse('${NetworkConfig.baseUrl}/auth/register-face'),
+      headers: {
+        ..._headers,
+        'Authorization': 'Bearer ${NetworkConfig.token}',
+      },
+      body: jsonEncode({'image': imageData}),
+    ).timeout(const Duration(seconds: 30));
+
+    if (res.statusCode != 200) {
+      final errorData = jsonDecode(res.body);
+      throw Exception(errorData['detail'] ?? 'Gagal mendaftarkan wajah');
+    }
+  }
+
+  Future<void> loginWithFace(String imageBase64) async {
+    String imageData = imageBase64;
+    if (!imageData.startsWith('data:')) {
+      imageData = 'data:image/jpeg;base64,$imageData';
+    }
+
+    final res = await http.post(
+      Uri.parse('${NetworkConfig.baseUrl}/auth/face-login'),
+      headers: _headers,
+      body: jsonEncode({'image': imageData}),
+    ).timeout(const Duration(seconds: 30));
+
+    if (res.statusCode == 200) {
+      final data = jsonDecode(res.body);
+      NetworkConfig.token = data['access_token'];
+    } else {
+      final errorData = jsonDecode(res.body);
+      throw Exception(errorData['detail'] ?? 'Face login gagal');
+    }
+  }
+
   Future<void> updateProfile({
     String? name,
     String? email,

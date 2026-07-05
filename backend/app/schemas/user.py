@@ -7,6 +7,7 @@ class UserCreate(BaseModel):
     password: str = Field(min_length=6, max_length=128)
     gender: str | None = None
     date_of_birth: str | None = None
+    face_image: str | None = None
 
 
 class UserLogin(BaseModel):
@@ -38,6 +39,7 @@ class UserResponse(BaseModel):
     date_of_birth: str | None = None
     theme: str = "light"
     photo_url: str | None = None
+    face_image: str | None = None
     is_verified: bool = False
 
 

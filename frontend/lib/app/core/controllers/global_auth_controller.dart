@@ -78,6 +78,18 @@ class GlobalAuthController extends GetxController {
     await _provider.forgotPassword(email);
   }
 
+  Future<void> registerFace(String imageBase64) async {
+    await _provider.registerFace(imageBase64);
+  }
+
+  Future<void> loginWithFace(String imageBase64) async {
+    await _provider.loginWithFace(imageBase64);
+    if (NetworkConfig.token != null) {
+      await _storage.write(key: 'jwt_token', value: NetworkConfig.token);
+      await getCurrentUser();
+    }
+  }
+
   Future<void> loginWithGoogle() async {
     try {
       await GoogleSignInService.init();

@@ -21,6 +21,7 @@ def user_to_response(user: dict) -> UserResponse:
         date_of_birth=user.get("date_of_birth"),
         theme=user.get("theme") or "light",
         photo_url=user.get("photo_url"),
+        face_image=user.get("face_image"),
         is_verified=bool(user.get("is_verified", False)),
     )
 

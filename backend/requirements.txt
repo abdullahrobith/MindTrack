@@ -9,6 +9,8 @@ charset-normalizer==3.4.7
 click==8.4.1
 colorama==0.4.6
 cryptography==48.0.0
+deepface==0.0.100
+opencv-python-headless==4.10.0.84
 dnspython==2.8.0
 email-validator==2.3.0
 fastapi==0.136.3

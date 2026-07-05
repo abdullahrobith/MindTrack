@@ -2,6 +2,10 @@ import 'package:get/get.dart';
 
 import '../modules/affirmation/bindings/affirmation_binding.dart';
 import '../modules/affirmation/views/affirmation_view.dart';
+import '../modules/face_login/bindings/face_login_binding.dart';
+import '../modules/face_login/views/face_login_view.dart';
+import '../modules/face_register/bindings/face_register_binding.dart';
+import '../modules/face_register/views/face_register_view.dart';
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/auth_view.dart';
 import '../modules/beranda/bindings/beranda_binding.dart';
@@ -54,26 +58,31 @@ class AppPages {
       name: _Paths.BERANDA,
       page: () => const BerandaView(),
       binding: BerandaBinding(),
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.CHATBOT,
       page: () => const ChatbotView(),
       binding: ChatbotBinding(),
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.RIWAYAT,
       page: () => const RiwayatView(),
       binding: RiwayatBinding(),
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.PENGATURAN,
       page: () => const PengaturanView(),
       binding: PengaturanBinding(),
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.KONSULTASI,
       page: () => const KonsultasiView(),
       binding: KonsultasiBinding(),
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.SELESAI,
@@ -114,6 +123,16 @@ class AppPages {
       name: _Paths.AFFIRMATION,
       page: () => const AffirmationView(),
       binding: AffirmationBinding(),
+    ),
+    GetPage(
+      name: _Paths.FACE_REGISTER,
+      page: () => const FaceRegisterView(),
+      binding: FaceRegisterBinding(),
+    ),
+    GetPage(
+      name: _Paths.FACE_LOGIN,
+      page: () => const FaceLoginView(),
+      binding: FaceLoginBinding(),
     ),
   ];
 }

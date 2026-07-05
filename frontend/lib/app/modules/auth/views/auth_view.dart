@@ -168,6 +168,33 @@ class AuthView extends GetView<AuthController> {
                   },
                 ),
 
+                const SizedBox(height: 16),
+
+                /// 🟦 FACE LOGIN BUTTON
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      controller.loginWithFace();
+                    },
+                    icon: const Icon(Icons.face_6, color: Color(0xFF3A66DB)),
+                    label: const Text(
+                      "Login with Face",
+                      style: TextStyle(
+                        color: Color(0xFF3A66DB),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      side: const BorderSide(color: Color(0xFF3A66DB)),
+                    ),
+                  ),
+                ),
+
                 const SizedBox(height: 30),
 
                 /// 🔗 SIGN UP

@@ -67,8 +67,8 @@ class RegisterController extends GetxController {
         tanggalLahir: tanggalLahir.value,
       );
 
-      Get.snackbar('Berhasil', 'Cek email anda untuk verifikasi');
-      Get.offAllNamed(Routes.VERIFICATION);
+      Get.snackbar('Berhasil', 'Sekarang daftarkan wajah Anda');
+      Get.offAllNamed(Routes.FACE_REGISTER);
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../controllers/pengaturan_controller.dart';
 import '../../../widgets/main_bottom_nav.dart';
+import '../../../controllers/navigation_controller.dart';
 import 'edit_profil_view.dart';
 import 'ubah_password_view.dart';
 
@@ -11,6 +12,7 @@ class PengaturanView extends GetView<PengaturanController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<NavigationController>().currentIndex.value = 4;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pengaturan', style: TextStyle(fontWeight: FontWeight.bold)),

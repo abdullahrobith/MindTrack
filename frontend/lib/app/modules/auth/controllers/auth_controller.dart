@@ -54,6 +54,10 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> loginWithFace() async {
+    Get.toNamed(Routes.FACE_LOGIN);
+  }
+
   Future<void> forgotPassword() async {
     if (email.value.trim().isEmpty) {
       Get.snackbar('Error', 'Silakan isi email terlebih dahulu');
