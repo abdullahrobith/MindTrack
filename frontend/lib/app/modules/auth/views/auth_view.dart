@@ -31,7 +31,7 @@ class AuthView extends GetView<AuthController> {
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
-                    "assets/images/logo.jpg",
+                    "assets/images/logo.png",
                     width: 80,
                     height: 80,
                   ),

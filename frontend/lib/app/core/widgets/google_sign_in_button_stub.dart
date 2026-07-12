@@ -13,7 +13,7 @@ Widget buildGoogleSignInButton({required VoidCallback onTap}) {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.g_mobiledata, size: 24),
+          Image.asset("assets/images/google_logo.png", width: 24, height: 24),
           const SizedBox(width: 8),
           const Text("Google"),
         ],

@@ -138,20 +138,6 @@ class RiwayatView extends GetView<RiwayatController> {
               ),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: () => Get.toNamed('/assessment-form'),
-              icon: const Icon(Icons.assignment_turned_in_rounded, size: 18),
-              label: const Text("Mulai Assessment"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colorBlue,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                elevation: 2,
-              ),
-            )
           ],
         ),
       ),

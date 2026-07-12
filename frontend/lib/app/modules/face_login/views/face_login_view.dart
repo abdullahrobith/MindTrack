@@ -72,7 +72,14 @@ class FaceLoginView extends GetView<FaceLoginController> {
                   ),
 
                   Expanded(
-                    child: CameraPreview(controller.cameraController.value!),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: controller.cameraController.value!.value.previewSize!.height,
+                        height: controller.cameraController.value!.value.previewSize!.width,
+                        child: CameraPreview(controller.cameraController.value!),
+                      ),
+                    ),
                   ),
 
                   Container(

@@ -61,8 +61,9 @@ class KonsultasiView extends GetView<KonsultasiController> {
       color: Get.isDarkMode ? Colors.black12 : Colors.grey.shade50,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Container(
-        height: 52, // Dibuat sedikit lebih tinggi agar tombol lebih besar/jelas
-        padding: const EdgeInsets.all(4),
+        height: 52,
+        clipBehavior: Clip.antiAlias,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: BoxDecoration(
           color: Get.isDarkMode ? Colors.grey.shade800 : Colors.white,
           borderRadius: BorderRadius.circular(26),
@@ -76,6 +77,7 @@ class KonsultasiView extends GetView<KonsultasiController> {
           ],
         ),
         child: Obx(() => Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _toggleBtn(
               label: 'Mode Suara', // Teks diperjelas
