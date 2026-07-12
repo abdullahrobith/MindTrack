@@ -91,31 +91,39 @@ class BerandaView extends GetView<BerandaController> {
 
   AppBar _buildAppBar() {
     return AppBar(
-
-      backgroundColor: const Color(0xFF2E66E7),
-
+      backgroundColor: Colors.transparent,
       elevation: 0,
-
       centerTitle: false,
-
-      title: const Text(
-
-        'MindTrack',
-
-        style: TextStyle(
-
-          color: Colors.white,
-
-          fontWeight: FontWeight.bold,
+      toolbarHeight: 70,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF2E66E7), Color(0xFF4A7DF0)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
       ),
-
-      leading: const Icon(
-        Icons.spa,
-        color: Colors.white,
+      // Judul diletakkan di kiri dengan ukuran yang lebih tegas
+      title: const Padding(
+        padding: EdgeInsets.only(left: 8),
+        child: Text(
+          'MindTrack',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0.8,
+          ),
+        ),
       ),
-
-      actions: [],
+      // Ikon Spa diletakkan di kiri sebagai penanda branding yang simpel
+      leading: const Padding(
+        padding: EdgeInsets.only(left: 16),
+        child: Icon(Icons.spa_rounded, color: Colors.white, size: 28),
+      ),
+      // Aksi dihapus (kosong) agar area kanan bersih
+      actions: const [],
     );
   }
 
@@ -697,8 +705,7 @@ Widget _buildMoodChart() {
                 ElevatedButton.icon(
                   onPressed: () {
                     // TODO: Ubah navigasi ini sesuai nama halaman Jurnal Anda
-                    // Contoh: Get.to(() => JournalPage()); 
-                    // atau Get.toNamed('/journal');
+                    Get.toNamed('/journal');
                   },
                   icon: const Icon(Icons.add_circle_outline, size: 18),
                   label: const Text("Tulis Jurnal Sekarang"),

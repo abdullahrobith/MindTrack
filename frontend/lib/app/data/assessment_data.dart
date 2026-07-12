@@ -61,3 +61,44 @@ final List<AssessmentQuestion> allClinicalQuestions = [
   ...gadQuestions,
   ...stressQuestions,
 ];
+
+// Tambahkan di bagian bawah file, setelah allClinicalQuestions
+
+class LifestyleQuestion {
+  final String title;
+  final String text;      // kalimat pertanyaan resmi
+  final List<String> options;
+  const LifestyleQuestion({
+    required this.title,
+    required this.text,
+    required this.options,
+  });
+}
+
+final List<LifestyleQuestion> lifestyleQuestions = [
+  const LifestyleQuestion(
+    title: 'Durasi Tidur',
+    text: 'Kira-kira berapa jam Anda tidur semalam?',
+    options: ['0 jam', '3 jam', '6 jam', '8 jam', '10 jam+'],
+  ),
+  const LifestyleQuestion(
+    title: 'Kualitas Tidur',
+    text: 'Bagaimana kualitas tidur Anda semalam?',
+    options: ['Sangat Buruk', 'Buruk', 'Cukup', 'Baik', 'Sangat Baik'],
+  ),
+  const LifestyleQuestion(
+    title: 'Aktivitas Fisik',
+    text: 'Seberapa aktif Anda bergerak atau berolahraga hari ini?',
+    options: ['Tidak Ada', 'Ringan', 'Sedang', 'Aktif', 'Sangat Aktif'],
+  ),
+  const LifestyleQuestion(
+    title: 'Interaksi Sosial',
+    text: 'Seberapa banyak Anda berinteraksi dengan orang lain hari ini?',
+    options: ['Tidak Ada', 'Sedikit', 'Cukup', 'Banyak', 'Sangat Banyak'],
+  ),
+  const LifestyleQuestion(
+    title: 'Produktivitas',
+    text: 'Bagaimana tingkat produktivitas Anda hari ini?',
+    options: ['Sangat Rendah', 'Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi'],
+  ),
+];

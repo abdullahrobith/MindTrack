@@ -19,18 +19,30 @@ class RiwayatView extends GetView<RiwayatController> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: colorBlue,
-        title: const Text(
-          "Riwayat Assessment",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        centerTitle: true,
+  // Menggunakan gradien halus
+  flexibleSpace: Container(
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Color(0xFF2E66E7), Color(0xFF4A7DF0)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
       ),
+    ),
+  ),
+  backgroundColor: Colors.transparent, // Transparan agar gradien terlihat
+  elevation: 4, // Sedikit bayangan agar tampak modern
+  shadowColor: Colors.black.withOpacity(0.2),
+  centerTitle: true,
+  title: const Text(
+    'Riwayat Assesment', // Nama lebih personal
+    style: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+      letterSpacing: 0.5,
+    ),
+  ),
+),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(

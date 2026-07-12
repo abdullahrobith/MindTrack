@@ -17,18 +17,30 @@ class ChatbotView extends GetView<ChatbotController> {
 
       // ================= APPBAR =================
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2E66E7),
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          'MindTrack Chatbot',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
+  // Menggunakan gradien halus
+  flexibleSpace: Container(
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Color(0xFF2E66E7), Color(0xFF4A7DF0)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
       ),
+    ),
+  ),
+  backgroundColor: Colors.transparent, // Transparan agar gradien terlihat
+  elevation: 4, // Sedikit bayangan agar tampak modern
+  shadowColor: Colors.black.withOpacity(0.2),
+  centerTitle: true,
+  title: const Text(
+    'MindTrack AI', // Nama lebih personal
+    style: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+      letterSpacing: 0.5,
+    ),
+  ),
+),
 
       // ================= BODY =================
       body: Column(

@@ -15,9 +15,30 @@ class PengaturanView extends GetView<PengaturanController> {
     Get.find<NavigationController>().currentIndex.value = 4;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pengaturan', style: TextStyle(fontWeight: FontWeight.bold)),
-        centerTitle: true,
+  // Menggunakan gradien halus
+  flexibleSpace: Container(
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Color(0xFF2E66E7), Color(0xFF4A7DF0)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
       ),
+    ),
+  ),
+  backgroundColor: Colors.transparent, // Transparan agar gradien terlihat
+  elevation: 4, // Sedikit bayangan agar tampak modern
+  shadowColor: Colors.black.withOpacity(0.2),
+  centerTitle: true,
+  title: const Text(
+    'Pengaturan', // Nama lebih personal
+    style: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+      letterSpacing: 0.5,
+    ),
+  ),
+),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
