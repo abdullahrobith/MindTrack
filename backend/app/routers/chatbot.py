@@ -1,3 +1,4 @@
+import re
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import requests
@@ -54,6 +55,9 @@ async def chat_with_bot(request: ChatRequest):
         data = response.json()
         
         reply = data.get("choices", [])[0].get("message", {}).get("content", "")
+        reply = re.sub(r'[*_~`#]', '', reply)
+        reply = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', reply)
+        reply = re.sub(r'^[>\-*+]\s+', '', reply, flags=re.MULTILINE)
         return {"reply": reply}
         
     except Exception as e:

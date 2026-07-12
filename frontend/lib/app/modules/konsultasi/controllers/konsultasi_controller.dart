@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter_tts/flutter_tts.dart';
@@ -59,7 +60,7 @@ class KonsultasiController extends GetxController {
 
   // ── Groq API ──────────────────────────────────────────────────
   // Dapatkan API Key di https://console.groq.com/keys
-  static const _groqKey   = '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'; 
+  static String get _groqKey => dotenv.env['GROQ_API_KEY'] ?? '';
   static const _groqModel = 'llama-3.3-70b-versatile'; 
   static const _groqUrl   = 'https://api.groq.com/openai/v1/chat/completions';
 

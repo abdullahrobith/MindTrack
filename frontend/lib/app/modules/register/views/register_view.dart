@@ -55,7 +55,7 @@ class RegisterView extends GetView<RegisterController> {
                         shape: BoxShape.circle,
                       ),
                       child: Image.asset(
-                        "assets/images/logo.jpg",
+                        "assets/images/logo.png",
                         width: 70,
                         height: 70,
                       ),
